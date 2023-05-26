@@ -34,10 +34,11 @@ public class Hospital {
         patients.remove(patient);
     }
 
+
     public static void dataWrite(){
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/jdbc",
-                    "root", "M13831383mR");
+                    "root", "admin");
 
             Statement statement = connection.createStatement();
 
