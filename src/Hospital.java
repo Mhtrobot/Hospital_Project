@@ -33,8 +33,6 @@ public class Hospital {
     public static void removePatient(Patient patient){
         patients.remove(patient);
     }
-
-
     public static void dataWrite(){
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/jdbc",
