@@ -46,18 +46,12 @@ public class Doctor extends Personal{
         return careerRecord;
     }
 
-    public void setCareerRecord(int careerRecord) {
-        this.careerRecord = careerRecord;
-    }
 
     public int getDoctorID() {
         return doctorID;
     }
     public ArrayList<Patient> getPatients(){
         return patients;
-    }
-    public void setPatients(ArrayList<Patient> patients){
-        this.patients=patients;
     }
 
     @Override

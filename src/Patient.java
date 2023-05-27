@@ -56,9 +56,6 @@ public class Patient extends Personal{
     public ArrayList<Doctor> getDoctors() {
         return doctors;
     }
-    public void setDoctors(ArrayList<Doctor> doctors){
-        this.doctors=doctors;
-    }
 
     @Override
     public String toString(){
