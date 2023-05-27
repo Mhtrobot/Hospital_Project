@@ -141,7 +141,7 @@ public class Hospital {
 
             for (Receipt i : receipts) {
 
-                String sqlQuery = "INSERT INTO receipt VALUES (?, ?, ?, ?, ?, ?, ?)";
+                String sqlQuery = "INSERT INTO receipt VALUES (?, ?, ?, ?, ?, ?)";
 
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
 
@@ -150,12 +150,11 @@ public class Hospital {
                 preparedStatement.setInt(3, i.getPatient().getPatientID());
                 preparedStatement.setInt(4, i.getCost());
                 preparedStatement.setString(5, i.getDate());
-                preparedStatement.setString(6, i.getIllness());
                 String state = "false";
                 if (i.isEmergency()) {
                     state = "true";
                 }
-                preparedStatement.setString(7, state);
+                preparedStatement.setString(6, state);
 
 
                 preparedStatement.executeUpdate();
@@ -174,9 +173,7 @@ public class Hospital {
             Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Hospital", "root", "M13831383mR");
 
             Statement statement = conn.createStatement();
-            ResultSet doctorRS = statement.executeQuery("SELECT * FROM doctor");
-            ResultSet employeeRS = statement.executeQuery("SELECT * FROM employee");
-            ResultSet receiptRS = statement.executeQuery("SELECT * FROM receipt");
+
             ResultSet patientRS = statement.executeQuery("SELECT * FROM patient");
 
 
@@ -210,6 +207,9 @@ public class Hospital {
                 Patient patient = new Patient(name, gender, age, address, phone, email, illness, usedDrugs, i, j, k, allergyToDrugs);
                 Hospital.patients.add(patient);
             }
+
+            ResultSet doctorRS = statement.executeQuery("SELECT * FROM doctor");
+
             while (doctorRS.next()) {
                 String name = doctorRS.getString("name");
                 String gender = doctorRS.getString("gender");
@@ -225,6 +225,8 @@ public class Hospital {
                 Doctor doctor = new Doctor(name, gender, age, address, phone, email, medicalExpertise, dayswork, shiftHours, careerRecord);
                 doctors.add(doctor);
             }
+
+            ResultSet employeeRS = statement.executeQuery("SELECT * FROM employee");
 
             while (employeeRS.next()) {
                 String name = employeeRS.getString("name");
@@ -244,12 +246,13 @@ public class Hospital {
                 employees.add(employee);
             }
 
+            ResultSet receiptRS = statement.executeQuery("SELECT * FROM receipt");
+
             while (receiptRS.next()) {
                 int doctorID = receiptRS.getInt("doctorID");
                 int PatientID = receiptRS.getInt("PatientID");
                 int cost = receiptRS.getInt("cost");
                 String date = receiptRS.getString("date");
-                String illness = receiptRS.getString("illness");
                 String isEmergency = receiptRS.getString("isEmergency");
                 boolean i = false;
                 if (isEmergency.compareTo("true") == 0) {
@@ -307,9 +310,9 @@ public class Hospital {
         receipts.add(r2);
         Hospital.dataWrite();
         Hospital.dataRead();
-        System.out.println(patients.get(0).getPatientID());
-        System.out.println(employees.get(0).getShiftHours());
-        System.out.println(doctors.get(0).getMedicalExpertise());
-        System.out.println(receipts.get(0).getIllness());
+        System.out.println(patients.get(0));
+        System.out.println(employees.get(0));
+        System.out.println(doctors.get(0));
+        System.out.println(receipts.get(0));
     }
 }

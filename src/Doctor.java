@@ -59,5 +59,21 @@ public class Doctor extends Personal{
     public void setPatients(ArrayList<Patient> patients){
         this.patients=patients;
     }
+
+    @Override
+    public String toString() {
+        return "Doctor{" +
+                "name='" + name + '\'' +
+                ", gender='" + gender + '\'' +
+                ", age=" + age +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", medicalExpertise='" + medicalExpertise + '\'' +
+                ", daysWork='" + daysWork + '\'' +
+                ", shiftHours=" + shiftHours +
+                ", careerRecord=" + careerRecord +
+                '}';
+    }
 }
 

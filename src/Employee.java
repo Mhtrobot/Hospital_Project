@@ -60,5 +60,22 @@ public class Employee extends Personal{
     public int getEmployeeID() {
         return employeeID;
     }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "name='" + name + '\'' +
+                ", gender='" + gender + '\'' +
+                ", age=" + age +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", grade='" + grade + '\'' +
+                ", role='" + role + '\'' +
+                ", careerRecord=" + careerRecord +
+                ", daysWork='" + daysWork + '\'' +
+                ", shiftHours=" + shiftHours +
+                '}';
+    }
 }
 

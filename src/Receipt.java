@@ -7,7 +7,6 @@ public class Receipt {
     private Patient patient;
     private int cost;
     private String date;
-    private String illness;
     private boolean isEmergency;
     private int recieptID;
 
@@ -23,7 +22,6 @@ public class Receipt {
         LocalDateTime now = LocalDateTime.now();
         date=dtf.format(now);
 
-        illness=patient.getIllness();
     }
 
     public Doctor getDoctor() {
@@ -38,9 +36,6 @@ public class Receipt {
     public String getDate() {
         return date;
     }
-    public String getIllness() {
-        return illness;
-    }
     public boolean isEmergency() {
         return isEmergency;
     }
@@ -48,24 +43,7 @@ public class Receipt {
         return recieptID;
     }
 
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-    public void setDate(String date) {
-        this.date = date;
-    }
-    public void setIllness(String illness) {
-        this.illness = illness;
-    }
-    public void setEmergency(boolean emergency) {
-        isEmergency = emergency;
-    }
+
     public void setRecieptID(int recieptID) {
         this.recieptID = recieptID;
     }
@@ -77,7 +55,6 @@ public class Receipt {
                 ", patient=" + patient.getName() +
                 ", cost=" + cost +
                 ", date='" + date + '\'' +
-                ", illness='" + illness + '\'' +
                 ", isEmergency=" + isEmergency +
                 ", recieptID=" + recieptID +
                 '}';
