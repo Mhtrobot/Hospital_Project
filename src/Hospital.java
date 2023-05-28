@@ -63,7 +63,7 @@ public class Hospital {
 
             for (Doctor i : doctors) {
 
-                String sqlQuery = "INSERT INTO doctor VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                String sqlQuery = "INSERT INTO doctor VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
 
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
 
@@ -78,6 +78,9 @@ public class Hospital {
                 preparedStatement.setString(9, i.getDaysWork());
                 preparedStatement.setInt(10, i.getShiftHours());
                 preparedStatement.setInt(11, i.getCareerRecord());
+                preparedStatement.setBoolean(12,i.isAvailable());
+                preparedStatement.setFloat(13,i.getRating());
+                preparedStatement.setInt(14,i.getSalary());
 
                 preparedStatement.executeUpdate();
             }
@@ -145,7 +148,7 @@ public class Hospital {
 
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
 
-                preparedStatement.setInt(1, i.getRecieptID());
+                preparedStatement.setInt(1, i.getReceiptID());
                 preparedStatement.setInt(2, i.getDoctor().getDoctorID());
                 preparedStatement.setInt(3, i.getPatient().getPatientID());
                 preparedStatement.setInt(4, i.getCost());
@@ -204,7 +207,8 @@ public class Hospital {
                 String allergyToDrugs = patientRS.getString("allergyToDrugs");
 
 
-                Patient patient = new Patient(name, gender, age, address, phone, email, illness, usedDrugs, i, j, k, allergyToDrugs);
+                Patient patient = new Patient(name, gender, age, address, phone, email, illness, usedDrugs, i, j, k,
+                        allergyToDrugs);
                 Hospital.patients.add(patient);
             }
 
@@ -221,8 +225,12 @@ public class Hospital {
                 String dayswork = doctorRS.getString("dayswork");
                 int shiftHours = doctorRS.getInt("shiftHours");
                 int careerRecord = doctorRS.getInt("careerRecord");
+                boolean isAvailable = doctorRS.getBoolean("isAvailable");
+                float rating = doctorRS.getFloat("Rating");
+                int salary = doctorRS.getInt("Salary");
 
-                Doctor doctor = new Doctor(name, gender, age, address, phone, email, medicalExpertise, dayswork, shiftHours, careerRecord);
+                Doctor doctor = new Doctor(name, gender, age, address, phone, email, medicalExpertise,
+                        dayswork, shiftHours, careerRecord, isAvailable, rating, salary);
                 doctors.add(doctor);
             }
 
@@ -242,7 +250,8 @@ public class Hospital {
                 int shiftHours = employeeRS.getInt("shiftHours");
 
 
-                Employee employee = new Employee(name, gender, age, address, phone, email, grade, role, careerRecord, dayswork, shiftHours);
+                Employee employee = new Employee(name, gender, age, address, phone, email, grade, role, careerRecord,
+                        dayswork, shiftHours);
                 employees.add(employee);
             }
 
@@ -292,6 +301,32 @@ public class Hospital {
 
     }
 
+    public static void doctorSalaryIncrease(Doctor doctor){
+        int previous = doctor.getSalary();
+        int increase = (doctor.getSalary()*20)/100;
+        int present = previous + increase;
+        doctor.setSalary(present);
+    }
+
+    public static void doctorSalaryDecrease(Doctor doctor){
+        int previous = doctor.getSalary();
+        int decrease = (doctor.getSalary()*10)/100;
+        int present = previous - decrease;
+    }
+
+    public static void employeeSalaryIncrease(Employee employee){
+        int previous = employee.getSalary();
+        int increase = (employee.getSalary()*20)/100;
+        int present = previous + increase;
+        employee.setSalary(present);
+    }
+
+    public static void employeeSalaryDecrease(Employee employee){
+        int previous = employee.getSalary();
+        int decrease = (employee.getSalary()*10)/100;
+        int present = previous - decrease;
+        employee.setSalary(present);
+    }
 
     public static void main(String[] args) {
         Doctor x =new Doctor("Mahdi Rahimi", "male",19,"tehran","0912","@gmail","expert","sa",15,2);
@@ -315,4 +350,6 @@ public class Hospital {
         System.out.println(doctors.get(0));
         System.out.println(receipts.get(0));
     }
+
+
 }

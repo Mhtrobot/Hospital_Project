@@ -64,7 +64,6 @@ public class Patient extends Personal{
                 "used drogs : " + usedDrugs + "\n" + "isInherited : " + isInherited + "\n" +
                 "medicalCase : " + medicalCase + "\n" + "isDrugAddict : " + isDrugAddict + "\n" +
                 "allergyToDrugs : " + allergyToDrugs;
-
         return result;
     }
 }
