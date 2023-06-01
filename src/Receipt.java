@@ -48,28 +48,6 @@ public class Receipt {
         return recieptID;
     }
 
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-    public void setDate(String date) {
-        this.date = date;
-    }
-    public void setIllness(String illness) {
-        this.illness = illness;
-    }
-    public void setEmergency(boolean emergency) {
-        isEmergency = emergency;
-    }
-    public void setRecieptID(int recieptID) {
-        this.recieptID = recieptID;
-    }
-
     @Override
     public String toString() {
         return "Receipt{" +

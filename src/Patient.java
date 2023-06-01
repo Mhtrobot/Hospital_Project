@@ -1,7 +1,11 @@
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Patient extends Personal{
     private String illness;
+    private String date;
     private String usedDrugs;
     private boolean isInherited;
     private boolean medicalCase;
@@ -9,6 +13,7 @@ public class Patient extends Personal{
     private String allergyToDrugs;
     private static int ID = 0;
     private ArrayList<Doctor> doctors;
+    private ArrayList<Receipt> receipts;
     private int patientID;
 
     public Patient(String name, String gender, int age, String address, String phone, String email,String illness,
@@ -22,6 +27,12 @@ public class Patient extends Personal{
         this.medicalCase = medicalCase;
         this.isDrugAddict = isDrugAddict;
         this.allergyToDrugs = allergyToDrugs;
+        this.doctors = new ArrayList<>();
+        this.receipts = new ArrayList<>();
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDateTime now = LocalDateTime.now();
+        this.date=dtf.format(now);
     }
 
     //----------------------------------------------------------------------------getter
@@ -60,6 +71,10 @@ public class Patient extends Personal{
         this.doctors=doctors;
     }
 
+    public String getDate() {
+        return date;
+    }
+
     @Override
     public String toString(){
         String result = "name : " + name + "\n" +
@@ -70,5 +85,12 @@ public class Patient extends Personal{
 
         return result;
     }
+
+  /*  public ArrayList<Receipt> getReceipts() {
+        for (Receipt r:receipts) {
+            if (r.getPatient().getPatientID() == this.getPatientID())
+        }
+        return receipts;
+    }*/
 }
 

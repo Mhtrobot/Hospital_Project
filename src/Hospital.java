@@ -8,32 +8,39 @@ public class Hospital {
     static ArrayList<Patient> patients = new ArrayList<Patient>();
     static ArrayList<Receipt> receipts = new ArrayList<Receipt>();
 
-    public static void addEmployee(Employee employee){
+    public static void addEmployee(Employee employee) {
         employees.add(employee);
     }
-    public static void addDoctor(Doctor doctor){
+
+    public static void addDoctor(Doctor doctor) {
         doctors.add(doctor);
     }
-    public static void addPersonal(Personal personal){
+
+    public static void addPersonal(Personal personal) {
         personals.add(personal);
     }
-    public static void addPatient(Patient patient){
+
+    public static void addPatient(Patient patient) {
         patients.add(patient);
     }
 
-    public static void removeEmployee(Employee employee){
+    public static void removeEmployee(Employee employee) {
         employees.remove(employee);
     }
-    public static void removeDoctor(Doctor doctor){
+
+    public static void removeDoctor(Doctor doctor) {
         doctors.remove(doctor);
     }
-    public static void removePersonal(Personal personal){
+
+    public static void removePersonal(Personal personal) {
         personals.remove(personal);
     }
-    public static void removePatient(Patient patient){
+
+    public static void removePatient(Patient patient) {
         patients.remove(patient);
     }
-    public static void dataWrite(){
+
+    public static void dataWrite() {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/jdbc",
                     "root", "admin");
@@ -54,7 +61,7 @@ public class Hospital {
             sql = "DELETE FROM receipt";
             statement.executeUpdate(sql);
 
-            for (Doctor i : doctors){
+            for (Doctor i : doctors) {
 
                 String sqlQuery = "INSERT INTO doctor VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -75,7 +82,7 @@ public class Hospital {
                 preparedStatement.executeUpdate();
             }
 
-            for (Patient i : patients){
+            for (Patient i : patients) {
 
                 String sqlQuery = "INSERT INTO patient VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,?)";
 
@@ -91,26 +98,26 @@ public class Hospital {
                 preparedStatement.setString(8, i.getIllness());
                 preparedStatement.setString(9, i.getUsedDrugs());
                 String state = "false";
-                if (i.isInherited()){
+                if (i.isInherited()) {
                     state = "true";
                 }
                 preparedStatement.setString(10, state);
                 state = "false";
-                if (i.isMedicalCase()){
+                if (i.isMedicalCase()) {
                     state = "true";
                 }
                 preparedStatement.setString(11, state);
                 state = "false";
-                if (i.isDrugAddict()){
+                if (i.isDrugAddict()) {
                     state = "true";
                 }
-                preparedStatement.setString(12,state);
-                preparedStatement.setString(13,i.getAllergyToDrugs());
+                preparedStatement.setString(12, state);
+                preparedStatement.setString(13, i.getAllergyToDrugs());
 
                 preparedStatement.executeUpdate();
             }
 
-            for (Employee i : employees){
+            for (Employee i : employees) {
 
                 String sqlQuery = "INSERT INTO employee VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
 
@@ -125,16 +132,16 @@ public class Hospital {
                 preparedStatement.setString(7, i.getEmail());
                 preparedStatement.setString(8, i.getGrade());
                 preparedStatement.setString(9, i.getRole());
-                preparedStatement.setInt(10,i.getCareerRecord());
-                preparedStatement.setString(11,i.getDaysWork());
-                preparedStatement.setInt(12,i.getShiftHours());
+                preparedStatement.setInt(10, i.getCareerRecord());
+                preparedStatement.setString(11, i.getDaysWork());
+                preparedStatement.setInt(12, i.getShiftHours());
 
                 preparedStatement.executeUpdate();
             }
 
-            for (Receipt i : receipts){
+            for (Receipt i : receipts) {
 
-                String sqlQuery = "INSERT INTO receipt VALUES (?, ?, ?, ?, ?, ?, ?)";
+                String sqlQuery = "INSERT INTO receipt VALUES (?, ?, ?, ?, ?, ?)";
 
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
 
@@ -143,41 +150,148 @@ public class Hospital {
                 preparedStatement.setInt(3, i.getPatient().getPatientID());
                 preparedStatement.setInt(4, i.getCost());
                 preparedStatement.setString(5, i.getDate());
-                preparedStatement.setString(6, i.getIllness());
                 String state = "false";
-                if (i.isEmergency()){
+                if (i.isEmergency()) {
                     state = "true";
                 }
-                preparedStatement.setString(7, state);
+                preparedStatement.setString(6, state);
 
 
                 preparedStatement.executeUpdate();
             }
 
+            connection.close();
 
-
-//            ResultSet resultSet = statement.executeQuery("SELECT * FROM customers");
-//
-//            while (resultSet.next()) {
-//                System.out.println(resultSet.getInt("customer_id") + ", " +
-//                        resultSet.getString("first_name"));
-//            }
-//
-//            String sql = "INSERT INTO doctor (idDoctor, name) SELECT MAX(idDoctor) + 1, '2220-01-01' FROM doctor";
-//            PreparedStatement statement2 = connection.prepareStatement(sql);
-//            statement2.executeUpdate();
-//
-//            resultSet = statement.executeQuery("SELECT * FROM doctor");
-//
-//            while (resultSet.next()) {
-//                System.out.println(resultSet.getInt("idDoctor"));
-//            }
-
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
+
+    public static void dataRead() {
+        try {
+
+            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Hospital", "root", "admin");
+
+            Statement statement = conn.createStatement();
+
+            ResultSet patientRS = statement.executeQuery("SELECT * FROM patient");
+
+
+            while (patientRS.next()) {
+                String name = patientRS.getString("name");
+                String gender = patientRS.getString("gender");
+                int age = patientRS.getInt("age");
+                String address = patientRS.getString("address");
+                String phone = patientRS.getString("phone");
+                String email = patientRS.getString("email");
+                String illness = patientRS.getString("illness");
+                String usedDrugs = patientRS.getString("usedDrugs");
+                String isInherited = patientRS.getString("isInherited");
+                boolean i = false;
+                if (isInherited.compareTo("true") == 0) {
+                    i = true;
+                }
+                String medicalCase = patientRS.getString("medicalCase");
+                boolean j = false;
+                if (medicalCase.compareTo("true") == 0) {
+                    j = true;
+                }
+                String isDrugAddict = patientRS.getString("isDrugAddict");
+                boolean k = false;
+                if (isDrugAddict.compareTo("true") == 0) {
+                    k = true;
+                }
+                String allergyToDrugs = patientRS.getString("allergyToDrugs");
+
+
+                Patient patient = new Patient(name, gender, age, address, phone, email, illness, usedDrugs, i, j, k, allergyToDrugs);
+                Hospital.patients.add(patient);
+            }
+
+            ResultSet doctorRS = statement.executeQuery("SELECT * FROM doctor");
+
+            while (doctorRS.next()) {
+                String name = doctorRS.getString("name");
+                String gender = doctorRS.getString("gender");
+                int age = doctorRS.getInt("age");
+                String address = doctorRS.getString("address");
+                String phone = doctorRS.getString("phone");
+                String email = doctorRS.getString("email");
+                String medicalExpertise = doctorRS.getString("medicalExpertise");
+                String dayswork = doctorRS.getString("dayswork");
+                int shiftHours = doctorRS.getInt("shiftHours");
+                int careerRecord = doctorRS.getInt("careerRecord");
+
+                Doctor doctor = new Doctor(name, gender, age, address, phone, email, medicalExpertise, dayswork, shiftHours, careerRecord);
+                doctors.add(doctor);
+            }
+
+            ResultSet employeeRS = statement.executeQuery("SELECT * FROM employee");
+
+            while (employeeRS.next()) {
+                String name = employeeRS.getString("name");
+                String gender = employeeRS.getString("gender");
+                int age = employeeRS.getInt("age");
+                String address = employeeRS.getString("address");
+                String phone = employeeRS.getString("phone");
+                String email = employeeRS.getString("email");
+                String grade = employeeRS.getString("grade");
+                String role = employeeRS.getString("role");
+                int careerRecord = employeeRS.getInt("careerRecord");
+                String dayswork = employeeRS.getString("daysWork");
+                int shiftHours = employeeRS.getInt("shiftHours");
+
+
+                Employee employee = new Employee(name, gender, age, address, phone, email, grade, role, careerRecord, dayswork, shiftHours);
+                employees.add(employee);
+            }
+
+            ResultSet receiptRS = statement.executeQuery("SELECT * FROM receipt");
+
+            while (receiptRS.next()) {
+                int doctorID = receiptRS.getInt("doctorID");
+                int PatientID = receiptRS.getInt("PatientID");
+                int cost = receiptRS.getInt("cost");
+                String date = receiptRS.getString("date");
+                String isEmergency = receiptRS.getString("isEmergency");
+                boolean i = false;
+                if (isEmergency.compareTo("true") == 0) {
+                    i = true;
+                }
+
+                Doctor doctor ;
+                int x=-1;
+                for (int in=0;in<doctors.size();in++) {
+                    if (doctors.get(in).getDoctorID() == doctorID) {
+                        x=in;
+                        break;
+                    }
+                }
+                doctor = doctors.get(x);
+
+                Patient patient ;
+                int y=-1;
+                for (int j=0;j<patients.size();j++){
+                    if (patients.get(j).getPatientID() == PatientID){
+                        y=j;
+                        break;
+                    }
+                }
+                patient=patients.get(y);
+
+                Receipt receipt = new Receipt(doctor,patient,cost,i);
+                receipts.add(receipt);
+
+            }
+
+            conn.close();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
 
     public static void main(String[] args) {
         Doctor x =new Doctor("Mahdi Rahimi", "male",19,"tehran","0912","@gmail","expert","sa",15,2);
@@ -195,5 +309,10 @@ public class Hospital {
         Receipt r2 = new Receipt(x2, y, 78000, false);
         receipts.add(r2);
         Hospital.dataWrite();
+        Hospital.dataRead();
+        System.out.println(patients.get(0));
+        System.out.println(employees.get(0));
+        System.out.println(doctors.get(0));
+        System.out.println(receipts.get(0));
     }
 }

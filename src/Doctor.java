@@ -7,7 +7,7 @@ public class Doctor extends Personal{
     private int careerRecord;
     private static int ID = 0;
     private int doctorID;
-    private ArrayList<Patient> patients = new ArrayList<Patient>();
+    private ArrayList<Patient> patients = new ArrayList<>();
 
     public Doctor(String name, String gender, int age, String address, String phone, String email,
                   String medicalExpertise, String daysWork, int shiftHours, int careerRecord) {
@@ -46,18 +46,11 @@ public class Doctor extends Personal{
         return careerRecord;
     }
 
-    public void setCareerRecord(int careerRecord) {
-        this.careerRecord = careerRecord;
-    }
-
     public int getDoctorID() {
         return doctorID;
     }
     public ArrayList<Patient> getPatients(){
         return patients;
-    }
-    public void setPatients(ArrayList<Patient> patients){
-        this.patients=patients;
     }
 }
 
