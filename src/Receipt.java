@@ -14,8 +14,9 @@ public class Receipt {       //receipt is added after visit
     private int receiptID;
 
     public Receipt(Doctor doctor, Patient patient , int cost , boolean isEmergency , String date){
+        //constructor for reading from database
         ID++;
-        receiptID = ID;
+        receiptID=ID;
         this.doctor=doctor;
         this.patient=patient;
         this.cost=cost;
@@ -23,17 +24,22 @@ public class Receipt {       //receipt is added after visit
         this.date=date;
     }
 
-    public Receipt(Doctor doctor, Patient patient , int cost , boolean isEmergency){
+    public Receipt(Doctor doctor, Patient patient , boolean isEmergency){
+        //constructor for new receipts
         ID++;
         receiptID = ID;
         this.doctor=doctor;
         this.patient=patient;
-        this.cost=cost;
         this.isEmergency=isEmergency;
+        //every doctor's reception cost is 1% of his/her salary, the better rating-> more salary-> more reception cost
+        this.cost = doctor.getSalary() / 100;
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDateTime now = LocalDateTime.now();
         date=dtf.format(now);
+
+        doctor.setAvailable(false);
+
 
         System.out.println("\t\t\t --------Please enter your Doctor's Rating : ");
         System.out.printf("\t\tDoctor %s : \n",doctor.getName());

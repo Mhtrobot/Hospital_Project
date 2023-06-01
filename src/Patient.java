@@ -12,7 +12,6 @@ public class Patient extends Personal{
     private boolean isDrugAddict;
     private String allergyToDrugs;
     private static int ID = 0;
-    private ArrayList<Doctor> doctors;
     private ArrayList<Receipt> receipts;
     private int patientID;
 
@@ -27,7 +26,6 @@ public class Patient extends Personal{
         this.medicalCase = medicalCase;
         this.isDrugAddict = isDrugAddict;
         this.allergyToDrugs = allergyToDrugs;
-        this.doctors = new ArrayList<>();
         this.receipts = new ArrayList<>();
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
@@ -64,8 +62,13 @@ public class Patient extends Personal{
         return patientID;
     }
 
-    public ArrayList<Doctor> getDoctors() {
-        return doctors;
+    public ArrayList<Receipt> getReceipts() {
+        ArrayList<Receipt> avaiReceipts = new ArrayList<>();
+        for (Receipt r:receipts) {
+            if (r.getPatient().getPatientID() == this.getPatientID())
+                avaiReceipts.add(r);
+        }
+        return avaiReceipts;
     }
 
     public String getDate() {

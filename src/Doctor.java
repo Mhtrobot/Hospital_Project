@@ -7,10 +7,10 @@ public class Doctor extends Personal{
     private int careerRecord;
     private static int ID = 0;
     private int doctorID;
-    private ArrayList<Patient> patients = new ArrayList<>();
     private float rating;
     private boolean isAvailable;
     private int salary;
+    private ArrayList<Receipt> receipts;
     public int getSalary() {
         return salary;
     }
@@ -29,7 +29,8 @@ public class Doctor extends Personal{
         isAvailable=true;
         salary=1000;
         rating = 0.0f;
-    }
+        this.receipts = new ArrayList<>();
+    }//constructor for new obj
 
     public Doctor(String name, String gender, int age, String address, String phone, String email,
                   String medicalExpertise, String daysWork, int shiftHours, int careerRecord, boolean isAvailable,
@@ -91,9 +92,16 @@ public class Doctor extends Personal{
     public boolean isAvailable() {
         return isAvailable;
     }
-    public ArrayList<Patient> getPatients(){
-        return patients;
+
+    public ArrayList<Receipt> getReceipts() {
+        ArrayList<Receipt> avaiReceipts = new ArrayList<>();
+        for (Receipt r:receipts) {
+            if (r.getPatient().getPatientID() == this.getDoctorID())
+                avaiReceipts.add(r);
+        }
+        return avaiReceipts;
     }
+
     @Override
     public String toString() {
         return "Doctor{" +

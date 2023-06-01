@@ -44,7 +44,7 @@ public class Hospital {
     public static void dataWrite() {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/jdbc",
-                    "root", "admin");
+                    "root", "M13831383mR");
 
             Statement statement = connection.createStatement();
 
@@ -173,7 +173,7 @@ public class Hospital {
 
     public static void dataRead() {
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/jdbc", "root", "admin");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/jdbc", "root", "M13831383mR");
             Statement statement = conn.createStatement();
 
             ResultSet patientRS = statement.executeQuery("SELECT * FROM patient");
@@ -328,4 +328,23 @@ public class Hospital {
         int present = previous - decrease;
         employee.setSalary(present);
     }
+
+    public static ArrayList<Doctor> availableDoctors(){
+        ArrayList<Doctor> available = new ArrayList<>();
+        for (Doctor d : doctors){
+            if (d.isAvailable()==true){
+                available.add(d);
+            }
+        }
+        return available;
+    }
+
+   /* public static void main(String[] args) {
+        dataRead();
+        Doctor d1= new Doctor("akbar", "male", 40, "tehran", "0933", "akbar@gmail.com", "Brain", "SUN, MON, TUE", 3, 10);
+        Doctor d2= new Doctor("asqar", "male", 50, "babol", "0911", "asqar@gmail.com", "heart", "SAT, WED, THU", 8, 25);
+        doctors.add(d1);
+        doctors.add(d2);
+        dataWrite();
+    }*/
 }

@@ -1,4 +1,6 @@
+import javax.print.Doc;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -19,8 +21,9 @@ public class App {
         cls();
         System.out.println("\t\t*--PROFILE--*\n");
         System.out.println("Name : " + personal.getName() + "\n" + "Age : " + personal.getAge() + "\n"
-                + "Address : " + personal.getAddress() + "\n" + "Gender : " + personal.getGender() + "\n");
+                + "Address : " + personal.getAddress() + "\n" + "Gender : " + personal.getGender());
     }
+
     public static void Start(){
         cls();
         System.out.println("WELCOME TO NiT Hospital:\n\n");
@@ -70,14 +73,14 @@ public class App {
         Scanner jin = new Scanner(System.in);
         Scanner jstr = new Scanner(System.in);
 
-        System.out.println("\tWELCOME "+ patient.getName());
+        System.out.println("\tWELCOME "+ "--*"+patient.getName()+"*--");
         System.out.println("1. Profile\n2. Request Visit\n3. Back\t0. Exit\nOption: ");
 
         int ch = jin.nextInt();
         switch (ch){
             case 1:{
                 Profile(patient);
-                System.out.println("Allergies: "+patient.getAllergyToDrugs());
+                System.out.print("Allergies: "+patient.getAllergyToDrugs()+"\n");
 
                 System.out.println("1. Edit\n2. Delete Account\n0. Back");
 
@@ -116,10 +119,9 @@ public class App {
                 }
             }
                 break;
-            /*case 2:
+            case 2:
+                addVisit(patient);
                 break;
-            case 3:
-                break;*/
             case 3:
                 Patient();
                 break;
@@ -129,7 +131,90 @@ public class App {
         }
     }
 
-    public static void delete(Personal p){
+    public static void addVisit(Patient patient){
+
+            try {
+
+                System.out.println("\t\t Welcome to VISIT menu ");
+                System.out.println("\t Here are our Doctors : ");
+
+                ArrayList<Doctor> availableDoctors = Hospital.availableDoctors();
+                int size = availableDoctors.size();
+
+                if (size == 0) {
+                    System.out.println("\t\t Sorry __ none of our Doctors are available ");
+                    MenuP(patient);
+                    return;
+                }
+
+                for (int i=0;i<size;i++){
+                    System.out.printf("\t%d : %s \t\t---*  Role : %s \t---* Cost : %d $\n", i+1, availableDoctors.get(i).getName(), availableDoctors.get(i).getMedicalExpertise(), availableDoctors.get(i).getSalary()/100);
+                    /*System.out.printf("\tID : %d \n", availableDoctors.get(i).getDoctorID());*/
+                }
+
+                System.out.println("-----------------------------------------------------------");
+
+                boolean choice = false;
+                while (!choice) {
+                    System.out.print("Your choice : ");
+                    Scanner input = new Scanner(System.in);
+                    int answer = input.nextInt();
+                    answer--;
+                    if (answer >= 0 && answer < size) {
+                        System.out.printf("\t\t You have choosed %s \n Are you sure ? (1:YES / 2:NO) ", availableDoctors.get(answer).getName());
+                        int x= input.nextInt();
+
+                        while (true){
+                            switch (x){
+                                case 1: {
+                                    choice = true;
+                                    boolean isEmergency;
+                                    Scanner input_2 = new Scanner(System.in);
+                                    while (true) {
+
+                                        System.out.println("\t\t is the visit emergency (true/false)? ");
+                                        isEmergency = input_2.hasNext();
+                                        if (isEmergency == true || isEmergency == false)
+                                            break;
+
+
+                                    }//end of while
+
+                                    Receipt receipt = new Receipt(availableDoctors.get(answer), patient, isEmergency);
+                                    patient.getReceipts().add(receipt);
+                                    Hospital.receipts.add(receipt);
+
+
+                                    System.out.println("\t\tYou have been visited succesfully ....");
+                                    System.out.printf("\t-ReceiptID : %d \t -Patient Name : %s \n", receipt.getReceiptID(), receipt.getPatient().getName());
+                                    System.out.printf("\t-Doctor Name : %s \t -Cost : %d $ \n", receipt.getDoctor().getName(), receipt.getCost());
+
+                                    Hospital.dataWrite();
+
+                                    MenuP(patient);
+                                }
+                                    break;
+                                case 2:
+                                    addVisit(patient);
+                                    break;
+                                case 3:
+                                   MenuP(patient);
+                                   break;
+                            }
+                        }//end of while
+
+                    }
+                    else {
+                        System.out.println("\t\t Please enter correct value :(");
+                    }
+
+                }//end of while
+
+            }//end of try
+            catch (Exception e){
+                System.out.println("\t\t NO DOCTOR HAS BEEN ADDED YET...");
+            }
+
 
     }
 
@@ -294,12 +379,14 @@ public class App {
                         }
                     }
                     break;
-                } else {
-                    System.out.println("\t\tERROR: THIS EMAIL DOES NOT EXIST\nPLEAS TRY AGAIN");
                 }
             }
-            if (isMember)
+            if (isMember){
                 break;
+            }
+            else {
+                System.out.println("\t\tERROR: THIS EMAIL DOES NOT EXIST\nPLEAS TRY AGAIN");
+            }
         }
     }
 
