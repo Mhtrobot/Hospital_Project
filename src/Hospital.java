@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Hospital {
@@ -172,9 +173,7 @@ public class Hospital {
 
     public static void dataRead() {
         try {
-
-            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Hospital", "root", "M13831383mR");
-
+            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/jdbc", "root", "M13831383mR");
             Statement statement = conn.createStatement();
 
             ResultSet patientRS = statement.executeQuery("SELECT * FROM patient");
@@ -188,7 +187,7 @@ public class Hospital {
                 String phone = patientRS.getString("phone");
                 String email = patientRS.getString("email");
                 String illness = patientRS.getString("illness");
-                String usedDrugs = patientRS.getString("usedDrugs");
+                String usedDrugs = patientRS.getString("usedDrogs");
                 String isInherited = patientRS.getString("isInherited");
                 boolean i = false;
                 if (isInherited.compareTo("true") == 0) {
@@ -263,6 +262,7 @@ public class Hospital {
                 int cost = receiptRS.getInt("cost");
                 String date = receiptRS.getString("date");
                 String isEmergency = receiptRS.getString("isEmergency");
+
                 boolean i = false;
                 if (isEmergency.compareTo("true") == 0) {
                     i = true;
@@ -288,7 +288,8 @@ public class Hospital {
                 }
                 patient=patients.get(y);
 
-                Receipt receipt = new Receipt(doctor,patient,cost,i);
+
+                Receipt receipt = new Receipt(doctor,patient,cost,i,date);
                 receipts.add(receipt);
 
             }
@@ -328,28 +329,28 @@ public class Hospital {
         employee.setSalary(present);
     }
 
-    public static void main(String[] args) {
-        Doctor x =new Doctor("Mahdi Rahimi", "male",19,"tehran","0912","@gmail","expert","sa",15,2);
-        Hospital.addDoctor(x);
-        Patient y =new Patient("Mahdi Rahimi", "male",19,"tehran","0912","@gmail","blood","",false,true,false,"");
-        patients.add(y);
-        Employee z=new Employee("Mahdi Rahimi", "male",19,"tehran","0912","@gmail","license","",5,"a",8);
-        employees.add(z);
-        Doctor x2 =new Doctor("Matin Aliakbari", "male",19,"tehran","0912","@gmail","expert","sa",15,2);
-        Hospital.addDoctor(x2);
-        Patient y2 =new Patient("Ali Ahmadi", "male",19,"tehran","0912","@gmail","blood","",false,true,false,"");
-        patients.add(y2);
-        Receipt r = new Receipt(x,y2,90000,true);
-        receipts.add(r);
-        Receipt r2 = new Receipt(x2, y, 78000, false);
-        receipts.add(r2);
-        Hospital.dataWrite();
-        Hospital.dataRead();
-        System.out.println(patients.get(0));
-        System.out.println(employees.get(0));
-        System.out.println(doctors.get(0));
-        System.out.println(receipts.get(0));
-    }
+//    public static void main(String[] args) {
+//        Doctor x =new Doctor("Mahdi Rahimi", "male",19,"tehran","0912","@gmail","expert","sa",15,2);
+//        Hospital.addDoctor(x);
+//        Patient y =new Patient("Mahdi Rahimi", "male",19,"tehran","0912","@gmail","blood","",false,true,false,"");
+//        patients.add(y);
+//        Employee z=new Employee("Mahdi Rahimi", "male",19,"tehran","0912","@gmail","license","",5,"a",8);
+//        employees.add(z);
+//        Doctor x2 =new Doctor("Matin Aliakbari", "male",19,"tehran","0912","@gmail","expert","sa",15,2);
+//        Hospital.addDoctor(x2);
+//        Patient y2 =new Patient("Ali Ahmadi", "male",19,"tehran","0912","@gmail","blood","",false,true,false,"");
+//        patients.add(y2);
+//        Receipt r = new Receipt(x,y2,90000,true);
+//        receipts.add(r);
+//        Receipt r2 = new Receipt(x2, y, 78000, false);
+//        receipts.add(r2);
+//        Hospital.dataWrite();
+//        Hospital.dataRead();
+//        System.out.println(patients.get(0));
+//        System.out.println(employees.get(0));
+//        System.out.println(doctors.get(0));
+//        System.out.println(receipts.get(0));
+//    }
 
 
 }

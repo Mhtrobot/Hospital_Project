@@ -1,3 +1,5 @@
+import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -10,6 +12,16 @@ public class Receipt {       //receipt is added after visit
     private String date;
     private boolean isEmergency;
     private int receiptID;
+
+    public Receipt(Doctor doctor, Patient patient , int cost , boolean isEmergency , String date){
+        ID++;
+        receiptID = ID;
+        this.doctor=doctor;
+        this.patient=patient;
+        this.cost=cost;
+        this.isEmergency=isEmergency;
+        this.date=date;
+    }
 
     public Receipt(Doctor doctor, Patient patient , int cost , boolean isEmergency){
         ID++;
@@ -33,7 +45,7 @@ public class Receipt {       //receipt is added after visit
         if (rating > 7.0){
             Hospital.doctorSalaryIncrease(doctor);}
         else if (rating < 5.0){
-            Hospital.doctorSalaryIncrease(doctor);}
+            Hospital.doctorSalaryDecrease(doctor);}
 
     }
 
