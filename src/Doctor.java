@@ -8,7 +8,15 @@ public class Doctor extends Personal{
     private static int ID = 0;
     private int doctorID;
     private ArrayList<Patient> patients = new ArrayList<>();
-
+    private float rating;
+    private boolean isAvailable;
+    private int salary;
+    public int getSalary() {
+        return salary;
+    }
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
     public Doctor(String name, String gender, int age, String address, String phone, String email,
                   String medicalExpertise, String daysWork, int shiftHours, int careerRecord) {
         super(name, gender, age, address, phone, email);
@@ -18,6 +26,24 @@ public class Doctor extends Personal{
         this.daysWork = daysWork;
         this.shiftHours = shiftHours;
         this.careerRecord = careerRecord;
+        isAvailable=true;
+        salary=1000;
+        rating = 0.0f;
+    }
+
+    public Doctor(String name, String gender, int age, String address, String phone, String email,
+                  String medicalExpertise, String daysWork, int shiftHours, int careerRecord, boolean isAvailable,
+                  float rating ,int salary) {
+        super(name, gender, age, address, phone, email);
+        ID++;
+        this.doctorID = ID;
+        this.medicalExpertise = medicalExpertise;
+        this.daysWork = daysWork;
+        this.shiftHours = shiftHours;
+        this.careerRecord = careerRecord;
+        this.isAvailable=isAvailable;
+        this.rating=rating;
+        this.salary=salary;
     }
 
     //----------------------------------------------------------------------------getter & setter
@@ -49,8 +75,40 @@ public class Doctor extends Personal{
     public int getDoctorID() {
         return doctorID;
     }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
     public ArrayList<Patient> getPatients(){
         return patients;
+    }
+    @Override
+    public String toString() {
+        return "Doctor{" +
+                "name='" + name + '\'' +
+                ", gender='" + gender + '\'' +
+                ", age=" + age +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", medicalExpertise='" + medicalExpertise + '\'' +
+                ", daysWork='" + daysWork + '\'' +
+                ", shiftHours=" + shiftHours +
+                ", careerRecord=" + careerRecord +
+                ", rating=" + rating +
+                '}';
     }
 }
 

@@ -46,11 +46,37 @@ public class Personal {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        if (this.getEmail().equals(email))
+            System.out.println("The Email can not be the SAME!!!");
+        else
+            this.email = email;
     }
 
     public int getPersonID() {
         return personID;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setPhone(String phone) {
+        if (this.getPhone().equals(phone))
+            System.out.println("The Phone can not be the SAME!!!");
+        else
+            this.phone = phone;
     }
 }
 

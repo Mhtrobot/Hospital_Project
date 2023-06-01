@@ -1,19 +1,31 @@
+import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
 
-public class Receipt {
-    private static int reserveListID = 0;
+public class Receipt {       //receipt is added after visit
+    private static int ID = 0;
     private Doctor doctor;
     private Patient patient;
     private int cost;
     private String date;
-    private String illness;
     private boolean isEmergency;
-    private int recieptID;
+    private int receiptID;
+
+    public Receipt(Doctor doctor, Patient patient , int cost , boolean isEmergency , String date){
+        ID++;
+        receiptID = ID;
+        this.doctor=doctor;
+        this.patient=patient;
+        this.cost=cost;
+        this.isEmergency=isEmergency;
+        this.date=date;
+    }
 
     public Receipt(Doctor doctor, Patient patient , int cost , boolean isEmergency){
-        reserveListID++;
-        recieptID = reserveListID;
+        ID++;
+        receiptID = ID;
         this.doctor=doctor;
         this.patient=patient;
         this.cost=cost;
@@ -23,7 +35,18 @@ public class Receipt {
         LocalDateTime now = LocalDateTime.now();
         date=dtf.format(now);
 
-        illness=patient.getIllness();
+        System.out.println("\t\t\t --------Please enter your Doctor's Rating : ");
+        System.out.printf("\t\tDoctor %s : \n",doctor.getName());
+        System.out.print("\tRating : ");
+        Scanner input = new Scanner(System.in);
+        float rating = input.nextFloat();
+        doctor.setRating(rating);
+
+        if (rating > 7.0){
+            Hospital.doctorSalaryIncrease(doctor);}
+        else if (rating < 5.0){
+            Hospital.doctorSalaryDecrease(doctor);}
+
     }
 
     public Doctor getDoctor() {
@@ -38,14 +61,16 @@ public class Receipt {
     public String getDate() {
         return date;
     }
-    public String getIllness() {
-        return illness;
-    }
     public boolean isEmergency() {
         return isEmergency;
     }
-    public int getRecieptID() {
-        return recieptID;
+    public int getReceiptID() {
+        return receiptID;
+    }
+
+
+    public void setReceiptID(int receiptID) {
+        this.receiptID = receiptID;
     }
 
     @Override
@@ -55,9 +80,8 @@ public class Receipt {
                 ", patient=" + patient.getName() +
                 ", cost=" + cost +
                 ", date='" + date + '\'' +
-                ", illness='" + illness + '\'' +
                 ", isEmergency=" + isEmergency +
-                ", recieptID=" + recieptID +
+                ", recieptID=" + receiptID +
                 '}';
     }
 

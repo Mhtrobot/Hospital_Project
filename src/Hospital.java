@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Hospital {
@@ -63,7 +64,7 @@ public class Hospital {
 
             for (Doctor i : doctors) {
 
-                String sqlQuery = "INSERT INTO doctor VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                String sqlQuery = "INSERT INTO doctor VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
 
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
 
@@ -78,6 +79,9 @@ public class Hospital {
                 preparedStatement.setString(9, i.getDaysWork());
                 preparedStatement.setInt(10, i.getShiftHours());
                 preparedStatement.setInt(11, i.getCareerRecord());
+                preparedStatement.setBoolean(12,i.isAvailable());
+                preparedStatement.setFloat(13,i.getRating());
+                preparedStatement.setInt(14,i.getSalary());
 
                 preparedStatement.executeUpdate();
             }
@@ -145,7 +149,7 @@ public class Hospital {
 
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
 
-                preparedStatement.setInt(1, i.getRecieptID());
+                preparedStatement.setInt(1, i.getReceiptID());
                 preparedStatement.setInt(2, i.getDoctor().getDoctorID());
                 preparedStatement.setInt(3, i.getPatient().getPatientID());
                 preparedStatement.setInt(4, i.getCost());
@@ -169,9 +173,7 @@ public class Hospital {
 
     public static void dataRead() {
         try {
-
-            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Hospital", "root", "admin");
-
+            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/jdbc", "root", "admin");
             Statement statement = conn.createStatement();
 
             ResultSet patientRS = statement.executeQuery("SELECT * FROM patient");
@@ -185,7 +187,7 @@ public class Hospital {
                 String phone = patientRS.getString("phone");
                 String email = patientRS.getString("email");
                 String illness = patientRS.getString("illness");
-                String usedDrugs = patientRS.getString("usedDrugs");
+                String usedDrugs = patientRS.getString("usedDrogs");
                 String isInherited = patientRS.getString("isInherited");
                 boolean i = false;
                 if (isInherited.compareTo("true") == 0) {
@@ -204,7 +206,8 @@ public class Hospital {
                 String allergyToDrugs = patientRS.getString("allergyToDrugs");
 
 
-                Patient patient = new Patient(name, gender, age, address, phone, email, illness, usedDrugs, i, j, k, allergyToDrugs);
+                Patient patient = new Patient(name, gender, age, address, phone, email, illness, usedDrugs, i, j, k,
+                        allergyToDrugs);
                 Hospital.patients.add(patient);
             }
 
@@ -221,8 +224,12 @@ public class Hospital {
                 String dayswork = doctorRS.getString("dayswork");
                 int shiftHours = doctorRS.getInt("shiftHours");
                 int careerRecord = doctorRS.getInt("careerRecord");
+                boolean isAvailable = doctorRS.getBoolean("isAvailable");
+                float rating = doctorRS.getFloat("Rating");
+                int salary = doctorRS.getInt("Salary");
 
-                Doctor doctor = new Doctor(name, gender, age, address, phone, email, medicalExpertise, dayswork, shiftHours, careerRecord);
+                Doctor doctor = new Doctor(name, gender, age, address, phone, email, medicalExpertise,
+                        dayswork, shiftHours, careerRecord, isAvailable, rating, salary);
                 doctors.add(doctor);
             }
 
@@ -242,7 +249,8 @@ public class Hospital {
                 int shiftHours = employeeRS.getInt("shiftHours");
 
 
-                Employee employee = new Employee(name, gender, age, address, phone, email, grade, role, careerRecord, dayswork, shiftHours);
+                Employee employee = new Employee(name, gender, age, address, phone, email, grade, role, careerRecord,
+                        dayswork, shiftHours);
                 employees.add(employee);
             }
 
@@ -254,6 +262,7 @@ public class Hospital {
                 int cost = receiptRS.getInt("cost");
                 String date = receiptRS.getString("date");
                 String isEmergency = receiptRS.getString("isEmergency");
+
                 boolean i = false;
                 if (isEmergency.compareTo("true") == 0) {
                     i = true;
@@ -279,7 +288,8 @@ public class Hospital {
                 }
                 patient=patients.get(y);
 
-                Receipt receipt = new Receipt(doctor,patient,cost,i);
+
+                Receipt receipt = new Receipt(doctor,patient,cost,i,date);
                 receipts.add(receipt);
 
             }
@@ -292,27 +302,30 @@ public class Hospital {
 
     }
 
+    public static void doctorSalaryIncrease(Doctor doctor){
+        int previous = doctor.getSalary();
+        int increase = (doctor.getSalary()*20)/100;
+        int present = previous + increase;
+        doctor.setSalary(present);
+    }
 
-    public static void main(String[] args) {
-        Doctor x =new Doctor("Mahdi Rahimi", "male",19,"tehran","0912","@gmail","expert","sa",15,2);
-        Hospital.addDoctor(x);
-        Patient y =new Patient("Mahdi Rahimi", "male",19,"tehran","0912","@gmail","blood","",false,true,false,"");
-        patients.add(y);
-        Employee z=new Employee("Mahdi Rahimi", "male",19,"tehran","0912","@gmail","license","",5,"a",8);
-        employees.add(z);
-        Doctor x2 =new Doctor("Matin Aliakbari", "male",19,"tehran","0912","@gmail","expert","sa",15,2);
-        Hospital.addDoctor(x2);
-        Patient y2 =new Patient("Ali Ahmadi", "male",19,"tehran","0912","@gmail","blood","",false,true,false,"");
-        patients.add(y2);
-        Receipt r = new Receipt(x,y2,90000,true);
-        receipts.add(r);
-        Receipt r2 = new Receipt(x2, y, 78000, false);
-        receipts.add(r2);
-        Hospital.dataWrite();
-        Hospital.dataRead();
-        System.out.println(patients.get(0));
-        System.out.println(employees.get(0));
-        System.out.println(doctors.get(0));
-        System.out.println(receipts.get(0));
+    public static void doctorSalaryDecrease(Doctor doctor){
+        int previous = doctor.getSalary();
+        int decrease = (doctor.getSalary()*10)/100;
+        int present = previous - decrease;
+    }
+
+    public static void employeeSalaryIncrease(Employee employee){
+        int previous = employee.getSalary();
+        int increase = (employee.getSalary()*20)/100;
+        int present = previous + increase;
+        employee.setSalary(present);
+    }
+
+    public static void employeeSalaryDecrease(Employee employee){
+        int previous = employee.getSalary();
+        int decrease = (employee.getSalary()*10)/100;
+        int present = previous - decrease;
+        employee.setSalary(present);
     }
 }

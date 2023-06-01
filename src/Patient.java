@@ -67,9 +67,6 @@ public class Patient extends Personal{
     public ArrayList<Doctor> getDoctors() {
         return doctors;
     }
-    public void setDoctors(ArrayList<Doctor> doctors){
-        this.doctors=doctors;
-    }
 
     public String getDate() {
         return date;
@@ -82,7 +79,6 @@ public class Patient extends Personal{
                 "used drogs : " + usedDrugs + "\n" + "isInherited : " + isInherited + "\n" +
                 "medicalCase : " + medicalCase + "\n" + "isDrugAddict : " + isDrugAddict + "\n" +
                 "allergyToDrugs : " + allergyToDrugs;
-
         return result;
     }
 

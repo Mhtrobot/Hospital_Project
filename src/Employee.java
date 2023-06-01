@@ -6,6 +6,15 @@ public class Employee extends Personal{
     private int shiftHours;
     private static int ID = 0;
     private int employeeID;
+    private int salary;
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
 
     public Employee(String name, String gender, int age, String address, String phone, String email, String grade,
                     String role, int careerRecord, String daysWork, int shiftHours) {
@@ -59,6 +68,23 @@ public class Employee extends Personal{
 
     public int getEmployeeID() {
         return employeeID;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "name='" + name + '\'' +
+                ", gender='" + gender + '\'' +
+                ", age=" + age +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", grade='" + grade + '\'' +
+                ", role='" + role + '\'' +
+                ", careerRecord=" + careerRecord +
+                ", daysWork='" + daysWork + '\'' +
+                ", shiftHours=" + shiftHours +
+                '}';
     }
 }
 
