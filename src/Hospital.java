@@ -44,7 +44,7 @@ public class Hospital {
     public static void dataWrite() {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/jdbc",
-                    "root", "M13831383mR");
+                    "root", "admin");
 
             Statement statement = connection.createStatement();
 
@@ -64,7 +64,7 @@ public class Hospital {
 
             for (Doctor i : doctors) {
 
-                String sqlQuery = "INSERT INTO doctor VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
+                String sqlQuery = "INSERT INTO doctor VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
 
@@ -79,9 +79,9 @@ public class Hospital {
                 preparedStatement.setString(9, i.getDaysWork());
                 preparedStatement.setInt(10, i.getShiftHours());
                 preparedStatement.setInt(11, i.getCareerRecord());
-                preparedStatement.setBoolean(12,i.isAvailable());
+                /*preparedStatement.setBoolean(12,i.isAvailable());
                 preparedStatement.setFloat(13,i.getRating());
-                preparedStatement.setInt(14,i.getSalary());
+                preparedStatement.setInt(14,i.getSalary());*/
 
                 preparedStatement.executeUpdate();
             }
@@ -173,7 +173,7 @@ public class Hospital {
 
     public static void dataRead() {
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/jdbc", "root", "M13831383mR");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/jdbc", "root", "admin");
             Statement statement = conn.createStatement();
 
             ResultSet patientRS = statement.executeQuery("SELECT * FROM patient");
@@ -224,13 +224,13 @@ public class Hospital {
                 String dayswork = doctorRS.getString("dayswork");
                 int shiftHours = doctorRS.getInt("shiftHours");
                 int careerRecord = doctorRS.getInt("careerRecord");
-                boolean isAvailable = doctorRS.getBoolean("isAvailable");
+                /*boolean isAvailable = doctorRS.getBoolean("isAvailable");
                 float rating = doctorRS.getFloat("Rating");
-                int salary = doctorRS.getInt("Salary");
+                int salary = doctorRS.getInt("Salary");*/
 
                 Doctor doctor = new Doctor(name, gender, age, address, phone, email, medicalExpertise,
-                        dayswork, shiftHours, careerRecord, isAvailable, rating, salary);
-                doctors.add(doctor);
+                        dayswork, shiftHours, careerRecord);
+                Hospital.doctors.add(doctor);
             }
 
             ResultSet employeeRS = statement.executeQuery("SELECT * FROM employee");
@@ -289,7 +289,7 @@ public class Hospital {
                 patient=patients.get(y);
 
 
-                Receipt receipt = new Receipt(doctor,patient,cost,i,date);
+                Receipt receipt = new Receipt(doctor,patient, cost, i,date);
                 receipts.add(receipt);
 
             }
@@ -339,12 +339,14 @@ public class Hospital {
         return available;
     }
 
-   /* public static void main(String[] args) {
+    /*public static void main(String[] args) {
         dataRead();
-        Doctor d1= new Doctor("akbar", "male", 40, "tehran", "0933", "akbar@gmail.com", "Brain", "SUN, MON, TUE", 3, 10);
-        Doctor d2= new Doctor("asqar", "male", 50, "babol", "0911", "asqar@gmail.com", "heart", "SAT, WED, THU", 8, 25);
+        availableDoctors();
+        System.out.println(doctors.get(0).isAvailable());
+        *//*Doctor d1= new Doctor("Ali", "male", 40, "tehran", "0933", "ali@gmail.com", "Nerve", "SUN, MON, TUE", 8, 10);
+        Doctor d2= new Doctor("Majid", "male", 50, "Karaj", "0931", "majid@gmail.com", "Psychologist", "SAT, WED, THU", 5, 25);
         doctors.add(d1);
-        doctors.add(d2);
-        dataWrite();
+        doctors.add(d2);*//*
+        *//*dataWrite();*//*
     }*/
 }

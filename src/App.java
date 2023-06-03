@@ -156,9 +156,13 @@ public class App {
 
                 boolean choice = false;
                 while (!choice) {
-                    System.out.print("Your choice : ");
+                    System.out.print("Your choice <0 to exit>: ");
                     Scanner input = new Scanner(System.in);
                     int answer = input.nextInt();
+                    if (answer==0) {
+                        MenuP(patient);
+                        break;
+                    }
                     answer--;
                     if (answer >= 0 && answer < size) {
                         System.out.printf("\t\t You have choosed %s \n Are you sure ? (1:YES / 2:NO) ", availableDoctors.get(answer).getName());
@@ -170,15 +174,10 @@ public class App {
                                     choice = true;
                                     boolean isEmergency;
                                     Scanner input_2 = new Scanner(System.in);
-                                    while (true) {
 
-                                        System.out.println("\t\t is the visit emergency (true/false)? ");
-                                        isEmergency = input_2.hasNext();
-                                        if (isEmergency == true || isEmergency == false)
-                                            break;
+                                    System.out.println("\t\t is the visit emergency (true/false)? ");
+                                    isEmergency = input_2.hasNext();
 
-
-                                    }//end of while
 
                                     Receipt receipt = new Receipt(availableDoctors.get(answer), patient, isEmergency);
                                     patient.getReceipts().add(receipt);

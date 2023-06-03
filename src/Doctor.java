@@ -42,9 +42,9 @@ public class Doctor extends Personal{
         this.daysWork = daysWork;
         this.shiftHours = shiftHours;
         this.careerRecord = careerRecord;
-        this.isAvailable=isAvailable;
-        this.rating=rating;
-        this.salary=salary;
+        this.isAvailable=this.isAvailable();
+        this.rating=this.getRating();
+        this.salary=this.getSalary();
     }
 
     //----------------------------------------------------------------------------getter & setter
@@ -119,4 +119,3 @@ public class Doctor extends Personal{
                 '}';
     }
 }
-
