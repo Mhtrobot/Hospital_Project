@@ -251,7 +251,7 @@ public class Hospital {
 
                 Employee employee = new Employee(name, gender, age, address, phone, email, grade, role, careerRecord,
                         dayswork, shiftHours);
-                employees.add(employee);
+                Hospital.employees.add(employee);
             }
 
             ResultSet receiptRS = statement.executeQuery("SELECT * FROM receipt");
@@ -341,12 +341,13 @@ public class Hospital {
 
     /*public static void main(String[] args) {
         dataRead();
+        *//*System.out.println(employees.get(0).getName());
         availableDoctors();
-        System.out.println(doctors.get(0).isAvailable());
-        *//*Doctor d1= new Doctor("Ali", "male", 40, "tehran", "0933", "ali@gmail.com", "Nerve", "SUN, MON, TUE", 8, 10);
-        Doctor d2= new Doctor("Majid", "male", 50, "Karaj", "0931", "majid@gmail.com", "Psychologist", "SAT, WED, THU", 5, 25);
-        doctors.add(d1);
-        doctors.add(d2);*//*
-        *//*dataWrite();*//*
+        System.out.println(doctors.get(0).isAvailable());*//*
+        Employee d1= new Employee("Ali", "male", 23, "tehran", "0933@123456789", "nurseali@gmail.com", "Senior", "Nurse", 2, "SAT, SUN, MON, TUE, WED, THU, FRI", 4);
+        Employee d2= new Employee("Majid", "male", 50, "Karaj", "0931@987654321", "nurs@gmail.com", "Junior", "Nurse", 10, "SAT, SUN, MON", 4);
+        employees.add(d1);
+        employees.add(d2);
+        dataWrite();
     }*/
 }

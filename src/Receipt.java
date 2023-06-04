@@ -75,10 +75,6 @@ public class Receipt {       //receipt is added after visit
     }
 
 
-    public void setReceiptID(int receiptID) {
-        this.receiptID = receiptID;
-    }
-
     @Override
     public String toString() {
         return "Receipt{" +

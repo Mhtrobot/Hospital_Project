@@ -95,8 +95,8 @@ public class Doctor extends Personal{
 
     public ArrayList<Receipt> getReceipts() {
         ArrayList<Receipt> avaiReceipts = new ArrayList<>();
-        for (Receipt r:receipts) {
-            if (r.getPatient().getPatientID() == this.getDoctorID())
+        for (Receipt r:Hospital.receipts) {
+            if (r.getDoctor().getDoctorID() == this.getDoctorID())
                 avaiReceipts.add(r);
         }
         return avaiReceipts;

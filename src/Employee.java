@@ -8,14 +8,6 @@ public class Employee extends Personal{
     private int employeeID;
     private int salary;
 
-    public int getSalary() {
-        return salary;
-    }
-
-    public void setSalary(int salary) {
-        this.salary = salary;
-    }
-
     public Employee(String name, String gender, int age, String address, String phone, String email, String grade,
                     String role, int careerRecord, String daysWork, int shiftHours) {
         super(name, gender, age, address, phone, email);
@@ -26,6 +18,15 @@ public class Employee extends Personal{
         this.careerRecord = careerRecord;
         this.daysWork = daysWork;
         this.shiftHours = shiftHours;
+    }
+
+    public int getSalary() {
+        this.salary = this.careerRecord*500;
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
     }
 
     //----------------------------------------------------------------------------getter & setter

@@ -1,6 +1,8 @@
+import javax.management.relation.Role;
 import javax.print.Doc;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -33,13 +35,292 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         int c = scanner.nextInt();
         switch (c){
-            /*case 1:
-                break;*/
+            case 2:
+                Doctor();
+                break;
             case 3:
                 Patient();
+                break;
+            case 4:
+                Employee();
+                break;
             case 0:
                 System.out.println("Provided with Suffer:::)");
                 break;
+        }
+    }
+//-------------------------------------------------------------------------------------------------------------
+
+    public static void Doctor(){
+        Scanner input = new Scanner(System.in);
+
+        while (true) {
+            System.out.print("Username: ");//role+randomnumber+email
+            String user = input.nextLine();
+            boolean isMember = false;
+            for (Doctor e : Hospital.doctors) {
+                if (e.getEmail().equals(user)) {
+                    System.out.println("Email Successfully Authorized!!");
+                    while (true) {
+                        System.out.print("Password: ");//phone@random number<9digits>
+                        String pass = input.nextLine();
+                        if (e.getPhone().compareTo(pass) == 0){
+                            MenuD(e);
+                            isMember = true;
+                            break;
+                        } else {
+                            System.out.println("\t\tERROR: PASSWORD(Phone) IS INCORRECT\n");
+                        }
+                    }
+                    break;
+                }
+            }
+            if (isMember){
+                break;
+            }
+            else {
+                System.out.println("\t\tERROR: THIS EMAIL DOES NOT EXIST\nPLEAS TRY AGAIN");
+            }
+        }
+    }
+
+    public static void MenuD(Doctor doctor){
+        cls();
+        int doc=0;
+        for (Doctor d:Hospital.doctors){
+            if (doctor.getDoctorID()==d.getDoctorID())
+                doc = d.getDoctorID()-1;
+        }
+        Scanner jin = new Scanner(System.in);
+        Scanner jstr = new Scanner(System.in);
+
+        System.out.println("\t\t--*STAFF ONLY*--\n\tWELCOME *-- "+doctor.getName()+" --*");
+        System.out.println("1. Profile\n2. Request to Manager\n3. Receipts\n0. Exit\nOption:");
+        int ch = jin.nextInt();
+
+        switch (ch){
+            case 1:{
+                cls();
+                Profile(doctor);
+                System.out.print("Expert: "+doctor.getMedicalExpertise()+"\nCareer Record: "+doctor.getCareerRecord()+"\nShift Hours: "+doctor.getShiftHours()+"\nMonthly Salary: "+doctor.getSalary()+" $\n"+"\nRATING: "+doctor.getRating()+"\n");
+                System.out.println("1. Edit\n2. Resign Request\n0. Back");
+                int ans = jin.nextInt();
+
+                switch (ans){
+                    case 1:{
+                        if (UPVerify(doctor)){
+                            cls();
+                            Edit(doctor);
+                        }
+                    }
+                    break;
+                    case 2:{
+                        if (UPVerify(doctor)){
+                            Scanner num = new Scanner(System.in);
+                            System.out.println("\t\t*--RESIGN REQUEST--*\n");
+
+                            Random random = new Random(System.currentTimeMillis());
+                            int rand = random.nextInt(1000000);
+
+                            System.out.println("For DELETING please Write down the Given Number: "+ rand);
+                            int enter = num.nextInt();
+
+                            if (enter == rand){
+                                System.out.println("Please fill out the form for the further operation, Why do you want to leave us:");
+                                Scanner input = new Scanner(System.in);
+                                String req = input.nextLine().concat(doctor.getName()+doctor.getDoctorID());
+
+                                System.out.println("your request: "+req+"\n\t press 1 to proceed, exit 0:");
+                                Scanner scanner1 = new Scanner(System.in);
+                                int ans1 = scanner1.nextInt();
+                                if (ans1 == 1){
+                                    /*Admin.resigns.add(req);*/
+                                    System.out.println("SENT Successfully!!!");
+                                    MenuD(doctor);
+                                    break;
+                                }else
+                                    MenuD(doctor);
+                            }else
+                                System.out.println("INCORRECT INPUT!!!");
+                        }
+                    }
+                    break;
+                    case 0:
+                        MenuD(doctor);
+                        break;
+                }
+            }
+                break;
+            case 2: {
+                cls();
+                if (UPVerify(doctor)) {
+                    System.out.println("Please write down your request in a shortest way: ");
+                    Scanner scanner = new Scanner(System.in);
+                    String str = scanner.nextLine().concat(doctor.getName() + doctor.getDoctorID());
+                    System.out.println("your request: " + str + "\n\t press 1 to proceed, exit 0:");
+                    Scanner scanner1 = new Scanner(System.in);
+                    int ans = scanner1.nextInt();
+                    if (ans == 1) {
+                        /*Admin.requests.add(str);*/
+                        System.out.println("SENT Successfully!!!");
+                        MenuD(doctor);
+                        break;
+                    }
+                } else {
+                    MenuD(doctor);
+                }
+            }
+                break;
+            case 3:{
+                cls();
+                List<Receipt> receipts = doctor.getReceipts();
+                System.out.println("\t\t--*--Receipts of Doctor "+doctor.getName()+" --*--");
+                if (receipts.size()==0)
+                    System.out.println("Unfortunately You have no record in this page");
+                else {
+                    for (Receipt r:receipts) {
+                        System.out.println("ID: "+r.getReceiptID());
+                        System.out.println(r);
+                        System.out.println("---------------------------------");
+                    }
+
+                    System.out.println("Available Status: "+doctor.isAvailable());
+                    System.out.println("Do You Wish to Change Your Status? <Y/N>");
+                    String answer = jstr.nextLine();
+                    if (answer.equalsIgnoreCase("y")){
+                        if (doctor.isAvailable() == true)
+                            Hospital.doctors.get(doc).setAvailable(false);
+                        else
+                            Hospital.doctors.get(doc).setAvailable(true);
+                    }else
+                        MenuD(doctor);
+                }
+            }
+                break;
+            case 0:
+                Start();
+                break;
+        }
+    }
+
+    public static void MenuE(Employee employee){
+        //profile & resign
+        cls();
+        Scanner jin = new Scanner(System.in);
+        Scanner jstr = new Scanner(System.in);
+
+        System.out.println("\t\t--*STAFF ONLY*--\n\tWELCOME *--"+employee.getName()+" --*");
+        System.out.println("1. Profile\n2. Request to Manager\n0. Exit\nOption:");
+
+        int ch = jin.nextInt();
+        switch (ch){
+            case 1:{
+                cls();
+                Profile(employee);
+                System.out.print("Role: "+employee.getRole()+"\nGrade: "+employee.getGrade()+"\nShift Hours: "+employee.getShiftHours()+"\nMonthly Salary: "+employee.getSalary()+" $\n");
+                System.out.println("1. Edit\n2. Resign Request\n0. Back");
+                int ans = jin.nextInt();
+                switch (ans){
+                    case 1:{
+                        if (UPVerify(employee)){
+                            cls();
+                            Edit(employee);
+                        }
+                    }
+                        break;
+                    case 2:{
+                        if (UPVerify(employee)){
+                            Scanner num = new Scanner(System.in);
+                            System.out.println("\t\t*--RESIGN REQUEST--*\n");
+
+                            Random random = new Random(System.currentTimeMillis());
+                            int rand = random.nextInt(1000000);
+
+                            System.out.println("For DELETING please Write down the Given Number: "+ rand);
+                            int enter = num.nextInt();
+
+                            if (enter == rand){
+                                System.out.println("Please fill out the form for the further operation, Why do you want to leave us:");
+                                Scanner input = new Scanner(System.in);
+                                String req = input.nextLine().concat(employee.getName()+employee.getEmployeeID());
+
+                                System.out.println("your request: "+req+"\n\t press 1 to proceed, exit 0:");
+                                Scanner scanner1 = new Scanner(System.in);
+                                int ans1 = scanner1.nextInt();
+                                if (ans1 == 1){
+                                    /*Admin.resigns.add(req);*/
+                                    System.out.println("SENT Successfully!!!");
+                                    MenuE(employee);
+                                    break;
+                                }else
+                                    MenuE(employee);
+                            }else
+                                System.out.println("INCORRECT INPUT!!!");
+                        }
+                    }
+                        break;
+                    case 0:
+                        MenuE(employee);
+                        break;
+                }
+            }
+                break;
+            case 2: {
+                cls();
+                if (UPVerify(employee)) {
+                    System.out.println("Please write down your request in a shortest way: ");
+                    Scanner scanner = new Scanner(System.in);
+                    String str = scanner.nextLine().concat(employee.getName() + employee.getEmployeeID());
+                    System.out.println("your request: " + str + "\n\t press 1 to proceed, exit 0:");
+                    Scanner scanner1 = new Scanner(System.in);
+                    int ans = scanner1.nextInt();
+                    if (ans == 1) {
+                        /*Admin.requests.add(str);*/
+                        System.out.println("SENT Successfully!!!");
+                        MenuE(employee);
+                        break;
+                    }
+                } else {
+                    MenuE(employee);
+                }
+            }
+                break;
+            case 0:
+                System.out.println("Provided with Suffer:::)");
+                break;
+        }
+    }
+
+    private static void Employee() {
+        Scanner input = new Scanner(System.in);
+
+        while (true) {
+            System.out.print("Username: ");//role+randomnumber+email
+            String user = input.nextLine();
+            boolean isMember = false;
+            for (Employee e : Hospital.employees) {
+                if (e.getEmail().equals(user)) {
+                    System.out.println("Email Successfully Authorized!!");
+                    while (true) {
+                        System.out.print("Password: ");//phone@random number<9digits>
+                        String pass = input.nextLine();
+                        if (e.getPhone().compareTo(pass) == 0){
+                            MenuE(e);
+                            isMember = true;
+                            break;
+                        } else {
+                            System.out.println("\t\tERROR: PASSWORD(Phone) IS INCORRECT\n");
+                        }
+                    }
+                    break;
+                }
+            }
+            if (isMember){
+                break;
+            }
+            else {
+                System.out.println("\t\tERROR: THIS EMAIL DOES NOT EXIST\nPLEAS TRY AGAIN");
+            }
         }
     }
 
@@ -90,7 +371,6 @@ public class App {
                         if (UPVerify(patient)){
                             cls();
                             Edit(patient);
-                            Hospital.dataWrite();
                         }
                         break;
                     case 2:{
@@ -166,44 +446,43 @@ public class App {
                     answer--;
                     if (answer >= 0 && answer < size) {
                         System.out.printf("\t\t You have choosed %s \n Are you sure ? (1:YES / 2:NO) ", availableDoctors.get(answer).getName());
+
                         int x= input.nextInt();
 
-                        while (true){
-                            switch (x){
-                                case 1: {
-                                    choice = true;
-                                    boolean isEmergency;
-                                    Scanner input_2 = new Scanner(System.in);
 
-                                    System.out.println("\t\t is the visit emergency (true/false)? ");
-                                    isEmergency = input_2.hasNext();
-
-
-                                    Receipt receipt = new Receipt(availableDoctors.get(answer), patient, isEmergency);
-                                    patient.getReceipts().add(receipt);
-                                    Hospital.receipts.add(receipt);
+                        switch (x){
+                            case 1: {
+                                choice = true;
+                                boolean isEmergency;
+                                Scanner input_2 = new Scanner(System.in);
+                                System.out.println("\t\t is the visit emergency (true/false)? ");
+                                isEmergency = input_2.hasNext();
 
 
-                                    System.out.println("\t\tYou have been visited succesfully ....");
-                                    System.out.printf("\t-ReceiptID : %d \t -Patient Name : %s \n", receipt.getReceiptID(), receipt.getPatient().getName());
-                                    System.out.printf("\t-Doctor Name : %s \t -Cost : %d $ \n", receipt.getDoctor().getName(), receipt.getCost());
+                                Receipt receipt = new Receipt(availableDoctors.get(answer), patient, isEmergency);
+                                patient.getReceipts().add(receipt);
+                                Hospital.receipts.add(receipt);
 
-                                    Hospital.dataWrite();
 
-                                    MenuP(patient);
-                                }
-                                    break;
-                                case 2:
-                                    addVisit(patient);
-                                    break;
-                                case 3:
-                                   MenuP(patient);
-                                   break;
+                                System.out.println("\t\tYou have been visited succesfully ....");
+                                System.out.printf("\t-ReceiptID : %d \t -Patient Name : %s \n", receipt.getReceiptID(), receipt.getPatient().getName());
+                                System.out.printf("\t-Doctor Name : %s \t -Cost : %d $ \n", receipt.getDoctor().getName(), receipt.getCost());
+
+                                Hospital.dataWrite();
+
+                                MenuP(patient);
                             }
-                        }//end of while
-
-                    }
-                    else {
+                            break;
+                            case 2:
+                                choice = true;
+                                addVisit(patient);
+                                break;
+                            case 3:
+                                choice = true;
+                                MenuP(patient);
+                                break;
+                            }
+                    }else {
                         System.out.println("\t\t Please enter correct value :(");
                     }
 
@@ -223,13 +502,14 @@ public class App {
         Scanner num = new Scanner(System.in);
         System.out.println("\t\t*--EDIT INFO--*\n\n");
 
-        System.out.println("Select the Fields to Change:\n1. Name\n2. Address\n3. Age\n 4. Gender\n5. Phone(Password)\n6. Email(Username)\n 0. Exit\t7. Back");
+        System.out.println("Select the Fields to Change:\n1. Name\n2. Address\n3. Age\n4. Gender\n5. Phone(Password)\n6. Email(Username)\n 0. Exit\t7. Back");
         int choice = num.nextInt();
 
         if (choice == 1){
             System.out.println("New Name: ");
             String name = in.nextLine();
             p.setName(name);
+            Hospital.dataWrite();
             Edit(p);
         }
 
@@ -237,6 +517,7 @@ public class App {
             System.out.println("New Address: ");
             String address = in.nextLine();
             p.setAddress(address);
+            Hospital.dataWrite();
             Edit(p);
         }
 
@@ -244,6 +525,7 @@ public class App {
             System.out.println("New Age: ");
             int age = num.nextInt();
             p.setAge(age);
+            Hospital.dataWrite();
             Edit(p);
         }
 
@@ -251,6 +533,7 @@ public class App {
             System.out.println("New Gender <male/female>: ");
             String gender = in.nextLine();
             p.setGender(gender);
+            Hospital.dataWrite();
             Edit(p);
         }
 
@@ -258,6 +541,7 @@ public class App {
             System.out.println("New Phone: ");
             String phone = in.nextLine();
             p.setPhone(phone);
+            Hospital.dataWrite();
             Edit(p);
         }
 
@@ -265,6 +549,7 @@ public class App {
             System.out.println("New Email: ");
             String email = in.nextLine();
             p.setEmail(email);
+            Hospital.dataWrite();
             Edit(p);
         }
 
