@@ -9,6 +9,7 @@ public class Hospital {
     static ArrayList<Patient> patients = new ArrayList<Patient>();
     static ArrayList<Receipt> receipts = new ArrayList<Receipt>();
 
+
     public static void addEmployee(Employee employee) {
         employees.add(employee);
     }
@@ -62,9 +63,12 @@ public class Hospital {
             sql = "DELETE FROM receipt";
             statement.executeUpdate(sql);
 
+            sql = "DELETE FROM admin";
+            statement.executeUpdate(sql);
+
             for (Doctor i : doctors) {
 
-                String sqlQuery = "INSERT INTO doctor VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
+                String sqlQuery = "INSERT INTO doctor VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
 
@@ -123,7 +127,7 @@ public class Hospital {
 
             for (Employee i : employees) {
 
-                String sqlQuery = "INSERT INTO employee VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
+                String sqlQuery = "INSERT INTO employee VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?)";
 
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
 
@@ -139,6 +143,7 @@ public class Hospital {
                 preparedStatement.setInt(10, i.getCareerRecord());
                 preparedStatement.setString(11, i.getDaysWork());
                 preparedStatement.setInt(12, i.getShiftHours());
+                preparedStatement.setInt(13,i.getSalary());
 
                 preparedStatement.executeUpdate();
             }
@@ -162,6 +167,17 @@ public class Hospital {
 
 
                 preparedStatement.executeUpdate();
+            }
+
+            for (int i=0;i<Admin.getRequests().size();i++){
+                String sqlQuery = "INSERT INTO admin VALUES (?)";
+
+                PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+
+                preparedStatement.setString(1, Admin.getRequests().get(i));
+
+                preparedStatement.executeUpdate();
+
             }
 
             connection.close();
@@ -230,7 +246,7 @@ public class Hospital {
 
                 Doctor doctor = new Doctor(name, gender, age, address, phone, email, medicalExpertise,
                         dayswork, shiftHours, careerRecord, isAvailable, rating, salary);
-                doctors.add(doctor);
+                Hospital.doctors.add(doctor);
             }
 
             ResultSet employeeRS = statement.executeQuery("SELECT * FROM employee");
@@ -247,11 +263,12 @@ public class Hospital {
                 int careerRecord = employeeRS.getInt("careerRecord");
                 String dayswork = employeeRS.getString("daysWork");
                 int shiftHours = employeeRS.getInt("shiftHours");
+                int salary = employeeRS.getInt("salary");
 
 
                 Employee employee = new Employee(name, gender, age, address, phone, email, grade, role, careerRecord,
-                        dayswork, shiftHours);
-                employees.add(employee);
+                        dayswork, shiftHours, salary);
+                Hospital.employees.add(employee);
             }
 
             ResultSet receiptRS = statement.executeQuery("SELECT * FROM receipt");
@@ -289,9 +306,16 @@ public class Hospital {
                 patient=patients.get(y);
 
 
-                Receipt receipt = new Receipt(doctor,patient,cost,i,date);
+                Receipt receipt = new Receipt(doctor,patient, cost, i,date);
                 receipts.add(receipt);
 
+            }
+
+            ResultSet adminRS = statement.executeQuery("SELECT * FROM admin");
+
+            while (adminRS.next()){
+                String request = receiptRS.getString("Request");
+                Admin.addRequest(request);
             }
 
             conn.close();
@@ -313,6 +337,7 @@ public class Hospital {
         int previous = doctor.getSalary();
         int decrease = (doctor.getSalary()*10)/100;
         int present = previous - decrease;
+        doctor.setSalary(present);
     }
 
     public static void employeeSalaryIncrease(Employee employee){
@@ -339,12 +364,17 @@ public class Hospital {
         return available;
     }
 
-   /* public static void main(String[] args) {
-        dataRead();
-        Doctor d1= new Doctor("akbar", "male", 40, "tehran", "0933", "akbar@gmail.com", "Brain", "SUN, MON, TUE", 3, 10);
-        Doctor d2= new Doctor("asqar", "male", 50, "babol", "0911", "asqar@gmail.com", "heart", "SAT, WED, THU", 8, 25);
-        doctors.add(d1);
-        doctors.add(d2);
-        dataWrite();
-    }*/
+//    public static void main(String[] args) {
+//        dataRead();
+//        System.out.println(employees.get(0).getName());
+//        System.out.println(availableDoctors().get(0).isAvailable());
+//        System.out.println(doctors.get(0).isAvailable());
+//        Doctor d3 = new Doctor("Hamzeh", "male", 23, "tehran", "0933@123456789", "nurseali@gmail.com", "Brain", "sun", 8, 5);
+//        Employee d1= new Employee("Ali", "male", 23, "tehran", "0933@123456789", "nurseali@gmail.com", "Senior", "Nurse", 2, "SAT, SUN, MON, TUE, WED, THU, FRI", 4);
+//        Employee d2= new Employee("Majid", "male", 50, "Karaj", "0931@987654321", "nurs@gmail.com", "Junior", "Nurse", 10, "SAT, SUN, MON", 4);
+//        employees.add(d1);
+//        employees.add(d2);
+//        doctors.add(d3);
+//        dataWrite();
+//    }
 }

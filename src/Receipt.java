@@ -22,6 +22,7 @@ public class Receipt {       //receipt is added after visit
         this.cost=cost;
         this.isEmergency=isEmergency;
         this.date=date;
+        doctor.setAvailable(false);
     }
 
     public Receipt(Doctor doctor, Patient patient , boolean isEmergency){
@@ -74,10 +75,6 @@ public class Receipt {       //receipt is added after visit
         return receiptID;
     }
 
-
-    public void setReceiptID(int receiptID) {
-        this.receiptID = receiptID;
-    }
 
     @Override
     public String toString() {
