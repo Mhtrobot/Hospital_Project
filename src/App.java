@@ -871,7 +871,7 @@ public class App {
                         case 3 :
                             admin();
                             break;
-                        }
+                    }
                 }
                 admin();
                 break;
@@ -1066,39 +1066,39 @@ public class App {
         //to enter as an admin : Username=admin@verify , Password=admin1234
         System.out.println("\t\t Welcome To Login Page (in every place enter \"exit\" to exit");
         Scanner admin = new Scanner(System.in);
-            while (true){
-                System.out.println("\t\t Enter your username : ");
-                String username = admin.nextLine();
+        while (true){
+            System.out.println("\t\t Enter your username : ");
+            String username = admin.nextLine();
 
-                if (username.compareTo("admin@verify") == 0){
-                    System.out.println("\t\t username successfully autherized");
+            if (username.compareTo("admin@verify") == 0){
+                System.out.println("\t\t username successfully autherized");
 
-                    while (true){
-                        System.out.println("\t Enter your password : ");
-                        String pass = admin.nextLine();
+                while (true){
+                    System.out.println("\t Enter your password : ");
+                    String pass = admin.nextLine();
 
-                        if (pass.compareTo("admin1234") == 0){
-                            System.out.println("\t\t Password successfully autherized");
-                            admin();
-                            break;
-                        } else if (pass.compareTo("exit") == 0) {
-                            Start();
-                            break;
-                        } else {
-                            System.out.println("\t\t Wrong password");
-                        }
+                    if (pass.compareTo("admin1234") == 0){
+                        System.out.println("\t\t Password successfully autherized");
+                        admin();
+                        break;
+                    } else if (pass.compareTo("exit") == 0) {
+                        Start();
+                        break;
+                    } else {
+                        System.out.println("\t\t Wrong password");
                     }
+                }
 
-                    break;
-                }
-                else if (username.compareTo("exit") == 0){
-                    Start();
-                    break;
-                }
-                else {
-                    System.out.println("\t\t Wrong username");
-                }
+                break;
             }
+            else if (username.compareTo("exit") == 0){
+                Start();
+                break;
+            }
+            else {
+                System.out.println("\t\t Wrong username");
+            }
+        }
     }
 
     /*for edit patient menu*/private static boolean UPVerify(Personal p) {
