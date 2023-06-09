@@ -1,6 +1,3 @@
-import javax.management.relation.Role;
-import javax.print.Doc;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -173,7 +170,7 @@ public class App {
                         } else {
                             MenuD(doctor);
                             break;
-                                }
+                            }
                         }
 
                     } else{
