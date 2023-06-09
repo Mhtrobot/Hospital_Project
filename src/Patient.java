@@ -85,11 +85,5 @@ public class Patient extends Personal{
         return result;
     }
 
-  /*  public ArrayList<Receipt> getReceipts() {
-        for (Receipt r:receipts) {
-            if (r.getPatient().getPatientID() == this.getPatientID())
-        }
-        return receipts;
-    }*/
 }
 

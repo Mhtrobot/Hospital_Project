@@ -17,20 +17,6 @@ public class Doctor extends Personal{
     public void setSalary(int salary) {
         this.salary = salary;
     }
-//    public Doctor(String name, String gender, int age, String address, String phone, String email,
-//                  String medicalExpertise, String daysWork, int shiftHours, int careerRecord) {
-//        super(name, gender, age, address, phone, email);
-//        ID++;
-//        this.doctorID = ID;
-//        this.medicalExpertise = medicalExpertise;
-//        this.daysWork = daysWork;
-//        this.shiftHours = shiftHours;
-//        this.careerRecord = careerRecord;
-//        isAvailable=true;
-//        salary=1000;
-//        rating = 0.0f;
-//        this.receipts = new ArrayList<>();
-//    }//constructor for new obj
 
     public Doctor(String name, String gender, int age, String address, String phone, String email,
                   String medicalExpertise, String daysWork, int shiftHours, int careerRecord, boolean isAvailable,
