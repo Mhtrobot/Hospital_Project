@@ -45,7 +45,7 @@ public class Hospital {
     public static void dataWrite() {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/jdbc",
-                    "root", "M13831383mR");
+                    "root", "admin");
 
             Statement statement = connection.createStatement();
 
@@ -189,7 +189,7 @@ public class Hospital {
 
     public static void dataRead() {
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/jdbc", "root", "M13831383mR");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/jdbc", "root", "admin");
             Statement statement = conn.createStatement();
 
             ResultSet patientRS = statement.executeQuery("SELECT * FROM patient");

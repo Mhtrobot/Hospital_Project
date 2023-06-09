@@ -220,6 +220,7 @@ public class App {
                 break;
         }
     }
+    //---------------------------------------------------------------------------------------------
 
     public static void MenuE(Employee employee){
         //profile & resign
@@ -348,6 +349,7 @@ public class App {
             }
         }
     }
+    //---------------------------------------------------------------------------------------------
 
     public static void Patient(){//email = username || phone = password
         cls();
@@ -435,6 +437,7 @@ public class App {
                 break;
         }
     }
+    //---------------------------------------------------------------------------------------------
 
     public static void addVisit(Patient patient){
 
@@ -529,12 +532,12 @@ public class App {
                 "6. Back\t0. Exit\nOption: ");
 
         int awnser = input.nextInt();
-        switch (awnser){
+        switch (awnser) {
             case 1:    //add staff
                 System.out.println("Which one Do you want to ADD ? \n1. Doctor\n2. Employee\n3. exit");
                 Scanner in = new Scanner(System.in);
                 int w = in.nextInt();
-                switch (w){
+                switch (w) {
                     case 1: //Doctor
                         Scanner strings = new Scanner(System.in);
                         System.out.println("\t\tPlease fill fields below : ");
@@ -546,10 +549,37 @@ public class App {
                         int age = in.nextInt();
                         System.out.println("\t address : ");
                         String address = strings.nextLine();
+                        //----
+                        Random random = new Random(System.currentTimeMillis());
+                        String email = null;
+                        String newEmail = null;
+                        boolean isValid = false;
+                        while (!isValid) {
+                            System.out.println("Email:");
+                            email = strings.nextLine();
+                            int i = 0;
+                            for (Doctor p : Hospital.doctors) {
+                                if (p.getEmail().compareTo(email) == 0) {
+                                    i++;
+                                    break;
+                                }
+                            }
+                            if (i == 1) {
+                                System.out.println("ERROR: THIS EMAIL HAS BEEN REGISTERED BEFORE\nPLEAS TRY AGAIN");
+                            } else {
+                                int ranNum = random.nextInt(1000);
+                                newEmail = email.concat("doc" + ranNum);
+                                System.out.println("Email Successfully Authorized!!");
+                                isValid = true;
+                            }
+                        }
+                        /*System.out.println("\t Email : ");
+                        String email = strings.nextLine();*/
                         System.out.println("\t phone : ");
-                        String phone = strings.nextLine();
-                        System.out.println("\t Email : ");
-                        String email = strings.nextLine();
+                        String tempPhone = strings.nextLine();
+                        int ran = random.nextInt(1000);
+                        String phone = tempPhone.concat("@" + ran);
+                        //---
                         System.out.println("\t MedicalExpertise : ");
                         String medicalExpertise = strings.nextLine();
                         System.out.println("\t daysWork : ");
@@ -559,7 +589,7 @@ public class App {
                         System.out.println("\t CareerRecord : ");
                         int careerRecord = in.nextInt();
 
-                        Doctor doctor = new Doctor(name, gender, age, address, phone, email, medicalExpertise, daysWork, shiftHours, careerRecord, true, 0.0f, careerRecord*100);
+                        Doctor doctor = new Doctor(name, gender, age, address, phone, newEmail, medicalExpertise, daysWork, shiftHours, careerRecord, true, 0.0f, careerRecord * 100);
                         Hospital.doctors.add(doctor);
 
                         System.out.println("\t Your Doctor Successfully Added To Hospital");
@@ -578,10 +608,35 @@ public class App {
                         int Eage = in.nextInt();
                         System.out.println("\t address : ");
                         String Eaddress = strings2.nextLine();
+                        //----
+                        Random random1 = new Random(System.currentTimeMillis());
+                        String emailE = null;
+                        String newEmailE = null;
+                        boolean isValidE = false;
+                        while (!isValidE) {
+                            System.out.println("Email:");
+                            emailE = strings2.nextLine();
+                            int i = 0;
+                            for (Employee p : Hospital.employees) {
+                                if (p.getEmail().compareTo(emailE) == 0) {
+                                    i++;
+                                    break;
+                                }
+                            }
+                            if (i == 1) {
+                                System.out.println("ERROR: THIS EMAIL HAS BEEN REGISTERED BEFORE\nPLEAS TRY AGAIN");
+                            } else {
+                                int ranNum = random1.nextInt(1000);
+                                newEmailE = emailE.concat("staff" + ranNum);
+                                System.out.println("Email Successfully Authorized!!");
+                                isValidE = true;
+                            }
+                        }
                         System.out.println("\t phone : ");
-                        String Ephone = strings2.nextLine();
-                        System.out.println("\t Email : ");
-                        String Eemail = strings2.nextLine();
+                        String tempPhoneE = strings2.nextLine();
+                        int ranE = random1.nextInt(1000);
+                        String phoneE = tempPhoneE.concat("@" + ranE);
+                        //---
                         System.out.println("\t Grade : ");
                         String grade = strings2.nextLine();
                         System.out.println("\t Role : ");
@@ -593,7 +648,7 @@ public class App {
                         System.out.println("\t ShiftHours : ");
                         int shiftHoursE = in.nextInt();
 
-                        Employee employee = new Employee(Ename, Egender, Eage, Eaddress, Ephone, Eemail, grade, role, EcareerRecord, EdaysWork, shiftHoursE, EcareerRecord*100);
+                        Employee employee = new Employee(Ename, Egender, Eage, Eaddress, phoneE, newEmailE, grade, role, EcareerRecord, EdaysWork, shiftHoursE, EcareerRecord * 100);
                         Hospital.employees.add(employee);
 
                         System.out.println("\t Your Employee Successfully Added To Hospital");
@@ -605,38 +660,38 @@ public class App {
                         admin();
                         break;
                 }
-            case 2:   // remove staff
+                break;
+            case 2: {   // remove staff
                 System.out.println("Which one Do you want to REMOVE ? \n1. Doctor\n2. Employee\n3. exit");
                 Scanner integers = new Scanner(System.in);
                 Scanner strings = new Scanner(System.in);
                 int newawnser = integers.nextInt();
 
-                switch (newawnser){
+                switch (newawnser) {
                     case 1:              //Doctor
                         System.out.println("\t Choose a doctor : ");
-                        for (int i=0;i<Hospital.doctors.size();i++){
-                            System.out.printf("%d.  %s \n", i+1, Hospital.doctors.get(i).getName());
+                        for (int i = 0; i < Hospital.doctors.size(); i++) {
+                            System.out.printf("%d.  %s \n", i + 1, Hospital.doctors.get(i).getName());
                         }
 
 
-                        while (true){
+                        while (true) {
                             System.out.println("your choice : ");
                             int choose = integers.nextInt();
-                            if (choose > Hospital.doctors.size() || choose < 1){
+                            if (choose > Hospital.doctors.size() || choose < 1) {
                                 System.out.println("Choose correct number !!");
-                            }
-                            else{
+                            } else {
                                 choose--;
                                 Doctor doctor = Hospital.doctors.get(choose);
                                 System.out.printf("you want to delete <<%s>>\n", doctor.getName());
                                 System.out.println("Are you sure : (1:YES/2:NO)");
-                                while (true){
+                                while (true) {
                                     int x = integers.nextInt();
-                                    if (x==1){
+                                    if (x == 1) {
                                         System.out.println("Print text below to confirm : \"Confirm@1234\"  (\"exit\" : to exit)");
-                                        while (true){
-                                            String s=strings.nextLine();
-                                            if (s.compareTo("Confirm@1234") == 0){
+                                        while (true) {
+                                            String s = strings.nextLine();
+                                            if (s.compareTo("Confirm@1234") == 0) {
                                                 Hospital.doctors.remove(doctor);
                                                 System.out.printf("\t Doctor %s Has Been Deleted Successfully\n", doctor.getName());
                                                 Hospital.dataWrite();
@@ -645,18 +700,15 @@ public class App {
                                             } else if (s.compareTo("exit") == 0) {
                                                 admin();
                                                 break;
-                                            }
-                                            else{
+                                            } else {
                                                 System.out.println("Please enter correct value !!");
                                             }
                                         }
                                         break;
-                                    }
-                                    else if (x==2){
+                                    } else if (x == 2) {
                                         admin();
                                         break;
-                                    }
-                                    else{
+                                    } else {
                                         System.out.println("Choose correct number !!");
                                     }
                                 }
@@ -668,29 +720,28 @@ public class App {
                     case 2:   //Employee
 
                         System.out.println("\t Choose an employee : ");
-                        for (int i=0;i<Hospital.employees.size();i++){
-                            System.out.printf("%d.  %s \n", i+1, Hospital.employees.get(i).getName());
+                        for (int i = 0; i < Hospital.employees.size(); i++) {
+                            System.out.printf("%d.  %s \n", i + 1, Hospital.employees.get(i).getName());
                         }
 
 
-                        while (true){
+                        while (true) {
                             System.out.println("your choice : ");
                             int choose = integers.nextInt();
-                            if (choose > Hospital.employees.size() || choose < 1){
+                            if (choose > Hospital.employees.size() || choose < 1) {
                                 System.out.println("Choose correct number !!");
-                            }
-                            else{
+                            } else {
                                 choose--;
                                 Employee employee = Hospital.employees.get(choose);
                                 System.out.printf("you want to delete <<%s>>\n", employee.getName());
                                 System.out.println("Are you sure : (1:YES/2:NO)");
-                                while (true){
+                                while (true) {
                                     int x = integers.nextInt();
-                                    if (x==1){
+                                    if (x == 1) {
                                         System.out.println("Print text below to confirm : \"Confirm@1234\"  (\"exit\" : to exit)");
-                                        while (true){
-                                            String s=strings.nextLine();
-                                            if (s.compareTo("Confirm@1234") == 0){
+                                        while (true) {
+                                            String s = strings.nextLine();
+                                            if (s.compareTo("Confirm@1234") == 0) {
                                                 Hospital.employees.remove(employee);
                                                 System.out.printf("\t Employee %s Has Been Deleted Successfully\n", employee.getName());
                                                 Hospital.dataWrite();
@@ -699,18 +750,15 @@ public class App {
                                             } else if (s.compareTo("exit") == 0) {
                                                 admin();
                                                 break;
-                                            }
-                                            else{
+                                            } else {
                                                 System.out.println("Please enter correct value !!");
                                             }
                                         }
                                         break;
-                                    }
-                                    else if (x==2){
+                                    } else if (x == 2) {
                                         admin();
                                         break;
-                                    }
-                                    else{
+                                    } else {
                                         System.out.println("Choose correct number !!");
                                     }
                                 }
@@ -724,19 +772,19 @@ public class App {
                         admin();
                         break;
                 }
-
-                break;
-            case 3:    //increase salary
+            }
+            break;
+            case 3:{    //increase salary
                 Scanner integers2 = new Scanner(System.in);
 
                 System.out.println("1. Doctor  -  2. Employee  - 3. exit\t choice:");
-                int awnser2=integers2.nextInt();
+                int awnser2 = integers2.nextInt();
 
-                switch (awnser2){
+                switch (awnser2) {
                     case 1: // Doctor
                         System.out.println("Choose a doctor : ");
-                        for (int i=0;i<Hospital.doctors.size();i++){
-                            System.out.printf("%d.  %s\n", i+1, Hospital.doctors.get(i).getName());
+                        for (int i = 0; i < Hospital.doctors.size(); i++) {
+                            System.out.printf("%d.  %s\n", i + 1, Hospital.doctors.get(i).getName());
                         }
 
                         while (true) {
@@ -745,8 +793,7 @@ public class App {
 
                             if (ans > Hospital.doctors.size() || ans < 1) {
                                 System.out.println("Choose correct value !!");
-                            }
-                            else {
+                            } else {
                                 ans--;
                                 Doctor doctor = Hospital.doctors.get(ans);
                                 Hospital.doctorSalaryIncrease(doctor);
@@ -758,11 +805,11 @@ public class App {
                         }
 
                         break;
-                    case 2 :    //Employee
+                    case 2:    //Employee
 
                         System.out.println("Choose an Employee : ");
-                        for (int i=0;i<Hospital.employees.size();i++){
-                            System.out.printf("%d.  %s\n", i+1, Hospital.employees.get(i).getName());
+                        for (int i = 0; i < Hospital.employees.size(); i++) {
+                            System.out.printf("%d.  %s\n", i + 1, Hospital.employees.get(i).getName());
                         }
 
                         while (true) {
@@ -771,8 +818,7 @@ public class App {
 
                             if (ans > Hospital.employees.size() || ans < 1) {
                                 System.out.println("Choose correct value !!");
-                            }
-                            else {
+                            } else {
                                 ans--;
                                 Employee employee = Hospital.employees.get(ans);
                                 Hospital.employeeSalaryIncrease(employee);
@@ -790,21 +836,21 @@ public class App {
                         break;
                 }
 
-
+            }
                 break;
-            case 4:    //decrease salary
+            case 4: {    //decrease salary
 
                 Scanner integers3 = new Scanner(System.in);
                 Scanner strings3 = new Scanner(System.in);
 
                 System.out.println("1. Doctor  -  2. Employee  - 3. exit\t choice:");
-                int awnser3=integers3.nextInt();
+                int awnser3 = integers3.nextInt();
 
-                switch (awnser3){
+                switch (awnser3) {
                     case 1: // Doctor
                         System.out.println("Choose a doctor : ");
-                        for (int i=0;i<Hospital.doctors.size();i++){
-                            System.out.printf("%d.  %s\n", i+1, Hospital.doctors.get(i).getName());
+                        for (int i = 0; i < Hospital.doctors.size(); i++) {
+                            System.out.printf("%d.  %s\n", i + 1, Hospital.doctors.get(i).getName());
                         }
 
                         while (true) {
@@ -813,8 +859,7 @@ public class App {
 
                             if (ans > Hospital.doctors.size() || ans < 1) {
                                 System.out.println("Choose correct value !!");
-                            }
-                            else {
+                            } else {
                                 ans--;
                                 Doctor doctor = Hospital.doctors.get(ans);
                                 Hospital.doctorSalaryDecrease(doctor);
@@ -826,11 +871,11 @@ public class App {
                         }
 
                         break;
-                    case 2 :    //Employee
+                    case 2:    //Employee
 
                         System.out.println("Choose an Employee : ");
-                        for (int i=0;i<Hospital.employees.size();i++){
-                            System.out.printf("%d.  %s\n", i+1, Hospital.employees.get(i).getName());
+                        for (int i = 0; i < Hospital.employees.size(); i++) {
+                            System.out.printf("%d.  %s\n", i + 1, Hospital.employees.get(i).getName());
                         }
 
                         while (true) {
@@ -839,8 +884,7 @@ public class App {
 
                             if (ans > Hospital.employees.size() || ans < 1) {
                                 System.out.println("Choose correct value !!");
-                            }
-                            else {
+                            } else {
                                 ans--;
                                 Employee employee = Hospital.employees.get(ans);
                                 System.out.println(employee.getSalary());
@@ -859,20 +903,20 @@ public class App {
                         admin();
                         break;
                 }
-
+            }
                 break;
-            case 5:           //Request checkbox
+            case 5: {          //Request checkbox
                 Scanner se = new Scanner(System.in);
                 System.out.printf("\t\t----- You have %d new messages \n", Admin.getRequests().size());
-                for (int i=0;i<Admin.getRequests().size();i++){
-                    System.out.printf("\t%d_   *\" %s \"* \n", i+1, Admin.getRequests().get(i));
+                for (int i = 0; i < Admin.getRequests().size(); i++) {
+                    System.out.printf("\t%d_   *\" %s \"* \n", i + 1, Admin.getRequests().get(i));
                     System.out.println("Press :  1 to Delete message  -  2 to get next message  -  3 to exit ");
                     int aw = se.nextInt();
-                    switch (aw){
-                        case 1 :
+                    switch (aw) {
+                        case 1:
                             System.out.println("\tAre you sure  (1:YES/2:NO) ?");
-                            int x =se.nextInt();
-                            switch (x){
+                            int x = se.nextInt();
+                            switch (x) {
                                 case 1:
                                     Admin.removeRequest(Admin.getRequests().get(i));
                                     System.out.println("\t\t Message deleted successfully ");
@@ -881,16 +925,17 @@ public class App {
                                     break;
                             }
                             break;
-                        case 2 :
-                            if (i==Admin.getRequests().size() - 1)
+                        case 2:
+                            if (i == Admin.getRequests().size() - 1)
                                 System.out.println("end of messages");
                             break;
-                        case 3 :
+                        case 3:
                             admin();
                             break;
                     }
                 }
                 admin();
+            }
                 break;
             case 6:
                 App.Start();
@@ -900,7 +945,7 @@ public class App {
                 break;
         }
     }
-
+    //---------------------------------------------------------------------------------------------
     public static void Edit(Personal p){
         cls();
         Scanner in = new Scanner(System.in);
